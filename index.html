@@ -1,0 +1,1944 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,700;12..96,75..100,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#ECEAF0;
+    --paper-2:#F6F5F8;
+    --ink:#171335;
+    --ink-60:#5a5477;
+    --ink-30:#a29fb5;
+    --rule:#d3cfdd;
+    --pink:#E8336D;
+    --blue:#2B4CE0;
+    --green:#00A76F;
+    --yellow:#F2B705;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;
+    --body:"Instrument Sans",system-ui,sans-serif;
+    --mono:"Space Mono",ui-monospace,monospace;
+    --r:4px;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:15px;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:20px 18px 90px}
+
+  /* ---------- capçalera ---------- */
+  header.top{
+    display:flex;align-items:flex-end;justify-content:space-between;
+    gap:16px;flex-wrap:wrap;
+    border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:0;
+    max-height:220px;overflow:hidden;
+    transition:max-height .3s ease,opacity .22s ease,padding .3s ease,border-color .2s ease;
+  }
+  header.top.collapsed{
+    max-height:0;opacity:0;padding-top:0;padding-bottom:0;border-bottom-color:transparent;pointer-events:none;
+  }
+  .brand h1{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:clamp(30px,7vw,52px);
+    line-height:.92;
+    letter-spacing:-.03em;
+    margin:0;
+    font-variation-settings:"wdth" 78;
+    text-transform:uppercase;
+  }
+  .brand h1 em{font-style:normal;color:var(--pink)}
+  .brand p{margin:6px 0 0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-60)}
+  .top-stat{text-align:right;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-60)}
+  .top-stat b{display:block;font-family:var(--display);font-size:26px;letter-spacing:-.02em;color:var(--ink);font-variation-settings:"wdth" 80}
+
+  /* ---------- pestanyes ---------- */
+  nav.tabs{
+    display:flex;gap:0;overflow-x:auto;border-bottom:1px solid var(--rule);margin-bottom:26px;scrollbar-width:none;
+    position:sticky;top:0;z-index:40;background:var(--paper);
+    box-shadow:0 1px 0 var(--rule);
+  }
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{
+    appearance:none;background:none;border:0;border-bottom:3px solid transparent;
+    font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-60);padding:13px 15px;cursor:pointer;white-space:nowrap;
+  }
+  nav.tabs button:hover{color:var(--ink)}
+  nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--pink)}
+  nav.tabs button.add-tab{
+    color:var(--green);font-family:var(--display);font-weight:800;font-size:19px;
+    background:transparent;border:2px solid var(--green);border-radius:50%;
+    width:26px;height:26px;padding:0;margin:11px 10px;flex-shrink:0;box-sizing:border-box;
+    border-width:1.6px;
+    display:flex;align-items:center;justify-content:center;line-height:1;
+    border-bottom-color:var(--green)!important;transition:background .15s,color .15s;
+  }
+  nav.tabs button.add-tab:hover{background:var(--green);color:#fff}
+  nav.tabs button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.daycell:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+  section[hidden]{display:none}
+  h2.sec{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.02em;margin:0 0 4px;font-variation-settings:"wdth" 85}
+  .sec-note{font-size:13px;color:var(--ink-60);margin:0 0 18px}
+
+  /* ---------- botons ---------- */
+  .btn{
+    font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--ink);color:var(--paper-2);border:2px solid var(--ink);
+    padding:10px 16px;border-radius:var(--r);cursor:pointer;
+  }
+  .btn:hover{background:var(--pink);border-color:var(--pink)}
+  .btn.ghost{background:none;color:var(--ink)}
+  .btn.ghost:hover{background:var(--ink);color:var(--paper-2)}
+  .btn.ghost.danger{color:var(--pink);border-color:var(--rule)}
+  .del-btn{
+    background:none;border:none;color:var(--pink);font-family:var(--body);font-size:17px;font-weight:800;
+    line-height:1;padding:4px 7px;border-radius:3px;cursor:pointer;
+  }
+  .del-btn:hover{background:rgba(232,51,109,.12)}
+  .btn.sm{padding:6px 10px;font-size:11px;border-width:1px}
+  .btn.danger:hover{background:var(--pink);border-color:var(--pink);color:#fff}
+  .btn[disabled]{opacity:.4;cursor:not-allowed}
+
+  /* ---------- formularis ---------- */
+  .field{margin-bottom:14px}
+  .map-link{
+    display:inline-block;margin-top:7px;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;
+    color:var(--ink-60);text-decoration:none;opacity:.55;transition:opacity .15s,color .15s;
+  }
+  .map-link:hover,.map-link:focus-visible{opacity:1;color:var(--blue);text-decoration:underline}
+  .stub-meta a.map-link{opacity:1;color:var(--ink-60);text-decoration:none;border-bottom:1px dotted var(--ink-30)}
+  .stub-meta a.map-link:hover{color:var(--blue);border-bottom-color:var(--blue)}
+  .field label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-60);margin-bottom:5px}
+  input,select,textarea{
+    width:100%;font-family:var(--body);font-size:15px;color:var(--ink);
+    background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);
+    padding:9px 11px;
+  }
+  input:focus,select:focus,textarea:focus{border-color:var(--ink)}
+  textarea{resize:vertical;min-height:64px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:0 16px}
+  .grid4{display:grid;grid-template-columns:1.2fr 1fr 1fr 1.2fr;gap:0 16px}
+  .segmented{display:flex;gap:8px;flex-wrap:wrap}
+  .segmented label{
+    flex:1 1 120px;display:flex;align-items:center;gap:8px;cursor:pointer;
+    border:1px solid var(--rule);background:var(--paper-2);border-radius:var(--r);
+    padding:10px 12px;font-size:14px;margin:0;text-transform:none;letter-spacing:0;font-family:var(--body);color:var(--ink)
+  }
+  .segmented input{width:auto;accent-color:var(--pink)}
+  .segmented label:has(input:checked){border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .check{display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer}
+  .check input{width:auto;accent-color:var(--green)}
+  .form-card{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);padding:20px}
+  .form-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:6px}
+
+  /* ---------- resguard (signature) ---------- */
+  .stub{
+    display:grid;grid-template-columns:66px 1fr;align-items:stretch;
+    background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);
+    margin-bottom:10px;overflow:hidden;position:relative;
+  }
+  .stub.cancelled{opacity:.55}
+  .stub.cancelled .stub-main b{text-decoration:line-through}
+  .stub-date{
+    padding:11px 6px;text-align:center;color:#fff;font-family:var(--mono);
+    display:flex;flex-direction:column;justify-content:center;line-height:1.1;
+  }
+  .stub-date .d{font-size:22px;font-weight:700}
+  .stub-date .m{font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.9}
+  .stub-date .y{font-size:9.5px;opacity:.7;margin-top:3px}
+  .perf{
+    display:none;
+  }
+  .stub-main{padding:11px 14px;min-width:0;overflow-wrap:anywhere}
+  .stub-main b{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:-.01em;display:block;font-variation-settings:"wdth" 88;overflow-wrap:anywhere}
+  .stub-comarca{font-family:var(--body);font-weight:400;font-size:13px;color:var(--ink-60);letter-spacing:0}
+  .stub-meta{font-size:13px;color:var(--ink-60);margin-top:2px;overflow-wrap:anywhere}
+  .stub-side{grid-column:2;padding:0 14px 12px;display:flex;flex-wrap:wrap;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;text-align:left;min-width:0}
+  .amount{font-family:var(--mono);font-weight:700;font-size:19px;white-space:nowrap}
+  .amount.zero{color:var(--ink-30)}
+  .stub-tools{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .stamp{
+    font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    border:1.5px solid currentColor;padding:2px 6px;border-radius:2px;display:inline-block;
+  }
+  .stamp.paid{color:var(--green);transform:rotate(-4deg)}
+  .stamp.due{color:var(--pink)}
+  .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-60)}
+  .stub-tags{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px 8px;max-width:100%}
+  .tag.warn{color:var(--yellow)}
+  .tag.dead{color:var(--ink-30)}
+  .tag.pay-toggle{
+    cursor:pointer;font-weight:700;display:inline-block;
+    border:1.5px solid currentColor;border-radius:3px;padding:2px 7px;
+    margin:5px 6px;transform:rotate(-4deg);transition:transform .12s,filter .12s;
+  }
+  .tag.pay-toggle.is-paid{color:var(--green)}
+  .tag.pay-toggle.is-due{color:var(--pink)}
+  .tag.pay-toggle:hover{transform:rotate(-4deg) scale(1.06);filter:brightness(0.9)}
+
+  /* ---------- calendari ---------- */
+  .cal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+  .cal-title{font-family:var(--display);font-weight:800;font-size:26px;text-transform:uppercase;letter-spacing:-.02em;font-variation-settings:"wdth" 80;margin:0}
+  .cal-nav{display:flex;gap:6px}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden}
+  .dow{background:var(--paper);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-60);text-align:center;padding:7px 2px}
+  .daycell{
+    background:var(--paper-2);min-height:88px;padding:5px 5px 6px;text-align:left;
+    border:0;font-family:var(--body);cursor:pointer;display:flex;flex-direction:column;gap:3px;
+  }
+  .daycell.out{background:var(--paper);color:var(--ink-30)}
+  .daycell:hover{background:#fff}
+  .daycell .num{font-family:var(--mono);font-size:12px;color:var(--ink-60)}
+  .daycell.today .num{background:var(--ink);color:var(--paper-2);border-radius:50%;width:20px;height:20px;display:grid;place-items:center}
+  .daycell.sel{box-shadow:inset 0 0 0 2px var(--ink)}
+  .ev{
+    font-size:11px;line-height:1.25;padding:2px 4px;border-radius:2px;color:#fff;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .ev.rehearsal{background:transparent!important;color:var(--ink-60);border:1px dashed var(--ink-30)}
+  .ev.cancelled{text-decoration:line-through;opacity:.6}
+  .more{font-family:var(--mono);font-size:10px;color:var(--ink-60)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-60);align-items:center}
+  .legend i{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:-1px}
+  .day-panel{margin-top:18px;border-top:2px solid var(--ink);padding-top:14px}
+
+  /* ---------- resum ---------- */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;margin-bottom:26px}
+  .kpi{background:var(--paper-2);padding:15px 14px}
+  .kpi span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-60);margin-bottom:6px}
+  .kpi b{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:-.03em;line-height:1;font-variation-settings:"wdth" 80}
+  .kpi.accent b{color:var(--pink)}
+  .kpi small{display:block;font-size:12px;color:var(--ink-60);margin-top:5px}
+  .panel{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);padding:18px;margin-bottom:22px}
+  .panel h3{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-60);margin:0 0 14px;font-weight:400}
+  .bars{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;position:relative;z-index:1}
+  .chart-wrap{position:relative}
+  .bar-col{display:flex;flex-direction:column;align-items:stretch;gap:5px;text-align:center}
+  .year-rows{display:flex;flex-direction:column;gap:14px}
+  .year-row{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:12px}
+  .year-row .yr-lbl{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.01em;font-variation-settings:"wdth" 82}
+  .year-row .yr-track{height:22px;border-radius:4px;overflow:hidden;display:flex}
+  .year-row .yr-track div{height:100%}
+  .year-row .yr-total{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink-60);white-space:nowrap}
+  .bar-track{height:130px;position:relative}
+  .bar{position:absolute;left:0;right:0;bottom:0;background:var(--blue);border-radius:2px 2px 0 0;min-height:2px;transition:height .3s}
+  .bar-lbl{font-family:var(--mono);font-size:9px;color:var(--ink-60);text-transform:uppercase}
+  .bar-val{
+    position:absolute;left:2px;right:2px;
+    display:flex;flex-direction:column;align-items:center;gap:0;
+    font-family:var(--mono);font-weight:700;color:var(--ink-60);
+    line-height:1.25;opacity:0;transition:opacity .12s;pointer-events:none;
+    overflow:hidden;
+  }
+  .bar-val .cnt{font-size:8px;opacity:.75;white-space:nowrap}
+  .bar-val .amt{font-size:9.5px;white-space:nowrap}
+  .bar-col:hover .bar-val{opacity:1}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-60);text-align:left;font-weight:400;padding:0 8px 8px;border-bottom:1px solid var(--rule)}
+  td{padding:9px 8px;border-bottom:1px solid var(--rule)}
+  tr:last-child td{border-bottom:0}
+  td.num,th.num{text-align:right;font-family:var(--mono)}
+  .swatch{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:7px}
+  .geo-row{border-bottom:1px solid var(--rule)}
+  .geo-row:last-child{border-bottom:0}
+  .geo-toggle{
+    width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;
+    background:none;border:0;padding:11px 2px;cursor:pointer;font-family:var(--body);font-size:14px;color:var(--ink);text-align:left;
+  }
+  .geo-toggle .arrow{display:inline-block;margin-right:9px;color:var(--ink-60);font-size:10px;transition:transform .18s}
+  .geo-toggle[aria-expanded="true"] .arrow{transform:rotate(90deg)}
+  .geo-toggle .geo-count{font-family:var(--mono);font-size:12.5px;color:var(--ink-60);white-space:nowrap}
+  .geo-sub{padding:0 2px 12px 21px;overflow:hidden}
+  .geo-sub-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--ink-60);padding:5px 0;border-bottom:1px dashed var(--rule)}
+  .geo-sub-row:last-child{border-bottom:0}
+  /* ---------- base de dades ---------- */
+  .bd-scroll{border:1px solid var(--rule);border-radius:var(--r);overflow:auto;max-height:72vh;background:var(--paper-2)}
+  .bd-table{border-collapse:collapse;width:100%;min-width:1500px;font-size:13px}
+  .bd-table thead th{
+    position:sticky;top:0;background:var(--ink);color:var(--paper-2);z-index:5;
+    padding:9px 7px;font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
+    text-align:left;white-space:nowrap;font-weight:400;
+  }
+  .bd-table td{padding:2px 3px;border-bottom:1px solid var(--rule);vertical-align:middle}
+  .bd-table tbody tr:hover{background:#fff}
+  .bd-table tr.bd-past{background:#e2dfe8}
+  .bd-table tr.bd-past td{color:var(--ink-60)}
+  .bd-table tr.bd-future{background:#eaf1ff}
+  .bd-table tr.bd-past:hover,.bd-table tr.bd-future:hover{background:#fff}
+  .bd-table input,.bd-table select{
+    width:100%;min-width:64px;font-family:var(--body);font-size:12.5px;color:var(--ink);
+    padding:6px 6px;border:1px solid transparent;background:transparent;border-radius:3px;
+    field-sizing:content;
+  }
+  .bd-table input[type="date"],.bd-table input[type="time"]{min-width:98px}
+  .bd-table input[type="number"]{min-width:66px}
+  .bd-table input[type="checkbox"]{width:auto;min-width:0;accent-color:var(--green)}
+  .bd-table select{min-width:110px}
+  .bd-table input[data-f="poblacio"],.bd-table input[data-f="colla"],
+  .bd-table input[data-f="comarca"],.bd-table input[data-f="vegueria"],
+  .bd-table input[data-f="contacte"]{min-width:150px}
+  .bd-table input[data-f="telefon"]{min-width:120px}
+  .bd-table input[data-f="obs"]{min-width:220px}
+  .bd-table select[data-f="grupId"],.bd-table select[data-f="estat"]{min-width:135px}
+  .bd-table input:disabled{opacity:.35}
+  .bd-table input:hover,.bd-table select:hover{border-color:var(--rule)}
+  .bd-table input:focus,.bd-table select:focus{border-color:var(--ink);background:#fff}
+  .bd-table td.obs-cell input{min-width:220px}
+
+  /* ---------- selector de mesos ---------- */
+  .month-btn{
+    width:100%;text-align:left;font-family:var(--body);font-size:15px;color:var(--ink);
+    background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);padding:9px 11px;cursor:pointer;
+  }
+  .month-btn:hover{border-color:var(--ink)}
+  .month-panel{
+    position:absolute;top:100%;left:0;right:0;margin-top:5px;z-index:30;
+    background:var(--paper-2);border:1px solid var(--ink);border-radius:var(--r);
+    padding:10px;box-shadow:0 10px 26px rgba(23,19,53,.18);
+    display:grid;grid-template-columns:1fr;gap:1px;
+    max-height:280px;overflow-y:auto;
+  }
+  .month-panel label{
+    display:flex;align-items:center;gap:8px;font-size:13.5px;padding:7px 5px;cursor:pointer;border-radius:3px;box-sizing:border-box;
+  }
+  .month-panel label:hover{background:#fff}
+  .month-panel input{width:auto;accent-color:var(--pink)}
+  .month-panel-actions{grid-column:1 / -1;display:flex;gap:8px;margin-top:6px;padding-top:8px;border-top:1px solid var(--rule)}
+
+  /* ---------- filtres ---------- */
+  .filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+  .filters .field{margin:0}
+  .count-line{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-60);margin:0 0 14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+  /* ---------- grups ---------- */
+  #groupList{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+  .group-card{
+    position:relative;overflow:hidden;background:var(--paper-2);border:1px solid var(--rule);
+    border-left:5px solid var(--ink);border-radius:var(--r);padding:16px;
+    aspect-ratio:16/9;background-size:cover;background-position:center;
+    display:flex;flex-direction:column;justify-content:flex-end;
+  }
+  .group-card.has-photo{border-left-width:0;color:#fff}
+  .group-card.has-photo::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,
+      color-mix(in srgb, var(--gc,#171335) 30%, transparent) 0%,
+      color-mix(in srgb, var(--gc,#171335) 40%, transparent) 45%,
+      color-mix(in srgb, var(--gc,#171335) 88%, black 12%) 100%);
+    mix-blend-mode:normal;
+  }
+  .group-card h4{font-family:var(--display);font-weight:700;font-size:22px;margin:0;letter-spacing:-.01em;font-variation-settings:"wdth" 88;position:relative;z-index:1;line-height:1.12}
+  .group-footer{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;position:relative;z-index:1}
+  .group-row{display:flex;justify-content:flex-end;align-items:center;gap:5px}
+  .group-row .btn.sm{padding:4px 8px;font-size:9.5px}
+  .group-row .del-btn{font-size:13px;padding:2px 5px}
+  .group-card.has-photo .del-btn{color:#fff}
+  .group-card.has-photo .btn.ghost{color:#fff;border-color:rgba(255,255,255,.5)}
+  .group-card.has-photo .btn.ghost:hover{background:#fff;color:var(--ink)}
+  .foto-position-box{
+    position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;
+    border:1px solid var(--rule);cursor:grab;background-size:cover;background-repeat:no-repeat;
+    touch-action:none;user-select:none;background-color:var(--paper-2);
+  }
+  .foto-position-box.dragging{cursor:grabbing}
+  .foto-position-hint{
+    position:absolute;left:50%;bottom:8px;transform:translateX(-50%);
+    background:rgba(23,19,53,.72);color:#fff;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:100px;
+    pointer-events:none;transition:opacity .2s;white-space:nowrap;
+  }
+  .foto-position-box.dragging .foto-position-hint{opacity:0}
+
+  .list-divider{
+    display:flex;align-items:center;gap:14px;margin:34px 0 18px;
+    font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:.02em;text-transform:uppercase;
+    color:var(--ink);font-variation-settings:"wdth" 85;
+  }
+  .list-divider::before,.list-divider::after{content:"";flex:1;height:2px;background:var(--pink)}
+  .list-divider span{background:var(--ink);color:var(--paper-2);padding:5px 14px;border-radius:20px;white-space:nowrap}
+  .empty{border:2px dashed var(--rule);border-radius:var(--r);padding:34px 20px;text-align:center;color:var(--ink-60)}
+  .empty p{margin:0 0 14px}
+  .toast{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%);
+    background:var(--ink);color:var(--paper-2);padding:11px 18px;border-radius:var(--r);
+    font-family:var(--mono);font-size:12px;letter-spacing:.06em;z-index:60;
+    box-shadow:0 6px 22px rgba(23,19,53,.28);
+  }
+  dialog{border:2px solid var(--ink);border-radius:var(--r);padding:0;max-width:560px;width:calc(100% - 32px);background:var(--paper);color:var(--ink)}
+  dialog.entry-dlg{max-width:640px;max-height:88vh;overflow-y:auto}
+  dialog::backdrop{background:rgba(23,19,53,.45)}
+  .modal-in{padding:20px}
+  .modal-in h3{font-family:var(--display);font-weight:700;font-size:21px;margin:0 0 14px;font-variation-settings:"wdth" 85}
+  .confirm-in{max-width:360px}
+  .confirm-danger{background:var(--pink);border-color:var(--pink);color:#fff}
+  .confirm-danger:hover{background:#c41f57;border-color:#c41f57}
+  .confirm-safe{background:var(--green);border-color:var(--green);color:#fff}
+  .confirm-safe:hover{background:#00875c;border-color:#00875c}
+  .loading{padding:60px 20px;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-60)}
+  .auth-gate{max-width:280px;margin:80px auto;display:flex;flex-direction:column;gap:12px}
+  .auth-gate p{margin:0;text-align:center;color:var(--ink-60);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+  .auth-error{color:var(--pink);font-size:13px;min-height:1.2em;margin:0;text-align:center}
+
+  @media (max-width:760px){
+    .grid2,.grid3,.grid4{grid-template-columns:1fr}
+    .daycell{min-height:64px}
+    .ev{font-size:0;height:6px;padding:0;border-radius:3px}
+    .ev.rehearsal{height:6px}
+    .bars{gap:3px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>Bolos</h1>
+    </div>
+    <div class="top-stat">
+      <b id="topNext">—</b>
+      <span id="topNextLbl">Proper bolo</span>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="afegir" class="add-tab" aria-selected="false" aria-label="Afegir" title="Afegir">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/></svg>
+    </button>
+    <button role="tab" data-tab="calendari" aria-selected="true">Calendari</button>
+    <button role="tab" data-tab="llistat" aria-selected="false">Bolos</button>
+    <button role="tab" data-tab="resum" aria-selected="false">Resum</button>
+    <button role="tab" data-tab="grups" aria-selected="false">Grups</button>
+    <button role="tab" data-tab="bd" aria-selected="false">Base de dades</button>
+  </nav>
+
+  <div id="boot" class="loading">Carregant les teves dades…</div>
+
+  <div id="authGate" class="auth-gate" hidden>
+    <p>Introdueix la contrasenya</p>
+    <form id="authForm" autocomplete="off">
+      <div class="field" style="margin-bottom:10px">
+        <input type="password" id="authPassword" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn" style="width:100%">Entra</button>
+    </form>
+    <p class="auth-error" id="authError"></p>
+  </div>
+
+  <main id="app" hidden>
+    <!-- CALENDARI -->
+    <section id="tab-calendari">
+      <div class="cal-head">
+        <h2 class="cal-title" id="calTitle">—</h2>
+        <div class="cal-nav">
+          <button class="btn sm ghost" id="calPrev" aria-label="Mes anterior">←</button>
+          <button class="btn sm ghost" id="calToday">Avui</button>
+          <button class="btn sm ghost" id="calNext" aria-label="Mes següent">→</button>
+        </div>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="legend" id="calLegend"></div>
+      <div class="day-panel" id="dayPanel"></div>
+    </section>
+
+    <dialog id="entryDlg" class="entry-dlg">
+      <form id="entryForm" class="modal-in" autocomplete="off">
+        <div class="cal-head" style="margin-bottom:14px">
+          <h3 id="entryDlgTitle" style="font-family:var(--display);font-weight:700;font-size:21px;margin:0;font-variation-settings:'wdth' 85">Nova entrada</h3>
+          <button type="button" class="btn sm ghost" id="entryDlgClose" aria-label="Tanca">✕</button>
+        </div>
+        <input type="hidden" id="f_id">
+        <div class="field">
+          <label>Què és</label>
+          <div class="segmented">
+            <label><input type="radio" name="tipus" value="actuacio" checked> Actuació</label>
+            <label><input type="radio" name="tipus" value="altres"> Altres</label>
+            <label id="tipusGrupLabel"><input type="radio" name="tipus" value="grup"> Grup nou</label>
+          </div>
+        </div>
+        <div class="grid4" id="dateGrid">
+          <div class="field"><label for="f_data">Data</label><input type="date" id="f_data" required></div>
+          <div class="field"><label for="f_hora">Hora d'inici</label><input type="time" id="f_hora"></div>
+          <div class="field"><label for="f_horaFi">Hora de fi</label><input type="time" id="f_horaFi"></div>
+          <div class="field"><label for="f_grup">Grup</label><select id="f_grup"></select></div>
+        </div>
+        <div id="actLocBlock">
+          <div class="grid2">
+            <div class="field"><label for="f_poblacio">Població</label><input type="text" id="f_poblacio" autocomplete="off"></div>
+            <div class="field"><label for="f_colla">Colla o festa</label><input type="text" id="f_colla" autocomplete="off"></div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label for="f_comarca">Comarca</label><input type="text" id="f_comarca" list="comarquesList" autocomplete="off"></div>
+            <div class="field"><label for="f_vegueria">Vegueria</label><input type="text" id="f_vegueria" autocomplete="off"></div>
+          </div>
+          <div class="field"><label for="f_funcio">Instrument / funció</label><select id="f_funcio">
+            <option value="">Sense especificar</option>
+            <option value="gralla">Gralla</option>
+            <option value="tabal">Tabal</option>
+            <option value="road_manager">Road manager</option>
+            <option value="tecnic_so">Tècnic de so</option>
+          </select></div>
+          <datalist id="comarquesList"></datalist>
+        </div>
+        <div class="field" id="altresLocBlock" hidden>
+          <label for="f_altres">Descripció</label>
+          <input type="text" id="f_altres" autocomplete="off">
+        </div>
+        <div id="groupFormBlock" hidden>
+          <div class="field"><label for="gf_nom">Nom del grup</label><input type="text" id="gf_nom" autocomplete="off"></div>
+          <div class="grid2">
+            <div class="field"><label for="gf_color">Color</label><input type="color" id="gf_color" style="height:42px;padding:3px"></div>
+            <div class="field"><label for="gf_import">Caixet habitual (€)</label><input type="number" id="gf_import" min="0" step="1"></div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label for="gf_contacte">Contacte habitual</label><input type="text" id="gf_contacte" autocomplete="off"></div>
+            <div class="field"><label for="gf_telefon">Telèfon</label><input type="tel" id="gf_telefon" autocomplete="off"></div>
+          </div>
+          <div class="field">
+            <label for="gf_foto">Fotografia de fons</label>
+            <input type="file" id="gf_foto" accept="image/*">
+            <div id="gf_fotoPreviewWrap" hidden style="margin-top:10px">
+              <div id="gf_fotoPositionBox" class="foto-position-box"><span class="foto-position-hint">Arrossega per ajustar</span></div>
+              <button type="button" class="btn sm ghost danger" id="gf_fotoRemove" style="margin-top:8px">Treu la foto</button>
+            </div>
+          </div>
+        </div>
+        <div id="payBlock">
+          <div class="grid3">
+            <div class="field">
+              <label for="f_import">Caixet (€)</label>
+              <input type="number" id="f_import" min="0" step="1" autocomplete="off">
+              <label class="check" style="text-transform:none;letter-spacing:0;font-family:var(--body);font-size:13px;color:var(--ink-60);margin-top:7px">
+                <input type="checkbox" id="f_perDeterminar"> Per determinar
+              </label>
+            </div>
+            <div class="field"><label for="f_estat">Estat</label>
+              <select id="f_estat">
+                <option value="confirmat">Confirmat</option>
+                <option value="pendent">Pendent de confirmar</option>
+                <option value="cancellat">Cancel·lat</option>
+              </select>
+            </div>
+            <div class="field" style="display:flex;align-items:flex-end;padding-bottom:9px">
+              <label class="check" style="text-transform:none;letter-spacing:0;font-family:var(--body);font-size:14px;color:var(--ink)">
+                <input type="checkbox" id="f_cobrat"> Ja m'han pagat
+              </label>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label for="f_contacte">Contacte</label><input type="text" id="f_contacte" autocomplete="off"></div>
+            <div class="field"><label for="f_telefon">Telèfon</label><input type="tel" id="f_telefon" autocomplete="off"></div>
+          </div>
+        </div>
+        <div class="field" id="repeatBlock" hidden>
+          <label for="f_repeatFreq">Repeteix</label>
+          <div class="grid2">
+            <select id="f_repeatFreq">
+              <option value="0">Només aquest dia</option>
+              <option value="7">Cada setmana</option>
+              <option value="14">Cada 15 dies</option>
+              <option value="m">Un cop al mes</option>
+            </select>
+            <input type="date" id="f_repeatFins" hidden>
+          </div>
+          <p class="sec-note" id="repeatHint" style="margin:6px 0 0"></p>
+        </div>
+        <div class="field" id="obsBlock"><label for="f_obs">Observacions</label><textarea id="f_obs" autocomplete="off"></textarea></div>
+        <div class="form-actions">
+          <button type="button" class="btn" id="saveBtn">Desa</button>
+          <button type="button" class="btn ghost" id="cancelEdit" hidden>Cancel·la l'edició</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- LLISTAT -->
+    <section id="tab-llistat" hidden>
+      <div class="filters">
+        <div class="field"><label for="fl_any">Any</label><select id="fl_any"></select></div>
+        <div class="field"><label for="fl_mesDes">Des de</label><select id="fl_mesDes"></select></div>
+        <div class="field"><label for="fl_mesFins">Fins a</label><select id="fl_mesFins"></select></div>
+        <div class="field"><label for="fl_grup">Grup</label><select id="fl_grup"></select></div>
+        <div class="field"><label for="fl_funcio">Funció</label><select id="fl_funcio"></select></div>
+        <div class="field"><label for="fl_pag">Cobrament</label><select id="fl_pag">
+          <option value="">Tots</option><option value="1">Cobrats</option><option value="0">Per cobrar</option>
+        </select></div>
+      </div>
+      <p class="count-line"><span id="listCount"></span><span id="listSum"></span></p>
+      <div id="listBody"></div>
+    </section>
+
+    <!-- RESUM -->
+    <section id="tab-resum" hidden>
+      <div class="cal-head" style="justify-content:flex-start">
+        <h2 class="sec" style="margin:0">Resum</h2>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div class="field" style="margin:0;min-width:130px">
+            <label for="r_any">Any</label>
+            <select id="r_any"></select>
+          </div>
+          <div class="field" style="margin:0;min-width:150px">
+            <label for="r_grup">Grup</label>
+            <select id="r_grup"></select>
+          </div>
+          <div class="field" style="margin:0;min-width:150px">
+            <label for="r_funcio">Funció</label>
+            <select id="r_funcio"></select>
+          </div>
+        </div>
+      </div>
+      <div class="kpis" id="kpis"></div>
+      <div class="panel"><h3 id="chartTitle">Ingressos per mes</h3>
+        <div class="chart-wrap">
+          <div class="bars" id="chart"></div>
+          <div id="chartYears" hidden></div>
+        </div>
+      </div>
+      <div class="panel"><h3>Comarques més visitades</h3><div id="byComarca"></div></div>
+      <div class="panel"><h3>Regions més visitades</h3><div id="byVegueria"></div></div>
+    </section>
+
+    <!-- GRUPS -->
+    <section id="tab-grups" hidden>
+      <div id="groupList"></div>
+    </section>
+
+    <!-- BASE DE DADES -->
+    <section id="tab-bd" hidden>
+      <div class="filters">
+        <div class="field"><label for="bd_cerca">Cerca</label><input type="search" id="bd_cerca" placeholder="Població, colla, contacte, observacions…"></div>
+        <div class="field"><label for="bd_any">Any</label><select id="bd_any"></select></div>
+        <div class="field"><label for="bd_grup">Grup</label><select id="bd_grup"></select></div>
+        <div class="field"><label for="bd_funcio">Funció</label><select id="bd_funcio"></select></div>
+        <div class="field" style="position:relative">
+          <label for="bd_mesBtn">Mesos</label>
+          <button type="button" id="bd_mesBtn" class="month-btn" aria-haspopup="true" aria-expanded="false">Tots els mesos</button>
+          <div class="month-panel" id="bd_mesPanel" hidden></div>
+        </div>
+      </div>
+      <p class="count-line"><span id="bdCount"></span></p>
+      <div class="legend" style="margin:0 0 10px">
+        <span><i style="background:#eaf1ff"></i>Propers</span>
+        <span><i style="background:#e2dfe8"></i>Passats</span>
+      </div>
+      <div class="bd-scroll">
+        <table class="bd-table">
+          <thead><tr>
+            <th>Tipus</th><th>Data</th><th>Grup</th><th>Població / ubicació</th>
+            <th>Colla o festa</th><th>Funció</th><th>Comarca</th><th>Vegueria</th><th>Inici</th><th>Fi</th><th>Caixet €</th>
+            <th>Cobrat</th><th>Estat</th><th>Contacte</th><th>Telèfon</th><th>Observacions</th><th></th>
+          </tr></thead>
+          <tbody id="bdBody"></tbody>
+        </table>
+      </div>
+
+      <h2 class="sec" style="margin-top:36px">Les teves dades</h2>
+      <p class="sec-note">Tot es guarda al servidor (base de dades). Descarrega't una còpia de tant en tant.</p>
+      <div class="form-actions">
+        <button class="btn ghost" id="exportCsv">Baixa CSV</button>
+        <button class="btn ghost" id="exportJson">Baixa còpia de seguretat</button>
+        <button class="btn ghost danger" id="wipe">Esborra-ho tot</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<dialog id="confirmDelDlg">
+  <div class="modal-in confirm-in">
+    <h3 id="confirmDelTitle">Vols eliminar l'esdeveniment?</h3>
+    <p class="sec-note" id="confirmDelDetail" style="margin:0 0 18px"></p>
+    <div class="form-actions">
+      <button type="button" id="confirmDelYes" class="btn confirm-danger">Eliminar</button>
+      <button type="button" id="confirmDelNo" class="btn confirm-safe">Cancel·la</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="groupDlg"><form class="modal-in" id="groupForm">
+  <h3 id="groupDlgTitle">Grup</h3>
+  <input type="hidden" id="g_id">
+  <div class="field"><label for="g_nom">Nom</label><input type="text" id="g_nom" required></div>
+  <div class="grid2">
+    <div class="field"><label for="g_color">Color</label><input type="color" id="g_color" style="height:42px;padding:3px"></div>
+    <div class="field"><label for="g_import">Caixet habitual (€)</label><input type="number" id="g_import" min="0" step="1"></div>
+  </div>
+  <div class="grid2">
+    <div class="field"><label for="g_contacte">Contacte habitual</label><input type="text" id="g_contacte"></div>
+    <div class="field"><label for="g_telefon">Telèfon</label><input type="tel" id="g_telefon"></div>
+  </div>
+  <div class="field">
+    <label for="g_foto">Fotografia de fons</label>
+    <input type="file" id="g_foto" accept="image/*">
+    <div id="g_fotoPreviewWrap" hidden style="margin-top:10px">
+      <div id="g_fotoPositionBox" class="foto-position-box"><span class="foto-position-hint">Arrossega per ajustar</span></div>
+      <button type="button" class="btn sm ghost danger" id="g_fotoRemove" style="margin-top:8px">Treu la foto</button>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button type="button" class="btn" id="saveGroupBtn">Desa el grup</button>
+    <button type="button" class="btn ghost" id="cancelGroupBtn">Cancel·la</button>
+    <button type="button" class="btn ghost danger" id="delGroup" style="margin-left:auto">Esborra</button>
+  </div>
+</form></dialog>
+
+<script>
+(function(){
+  "use strict";
+
+  var MESOS =["Gener","Febrer","Març","Abril","Maig","Juny","Juliol","Agost","Setembre","Octubre","Novembre","Desembre"];
+  var MESOS_C = ["Gen","Feb","Mar","Abr","Mai","Jun","Jul","Ago","Set","Oct","Nov","Des"];
+  var DIES = ["Dl","Dt","Dc","Dj","Dv","Ds","Dg"];
+  var PALETTE = ["#E8336D","#2B4CE0","#00A76F","#F2B705","#7B3FE4","#0FA3B1"];
+  var FUNCIONS = [["gralla","Gralla"],["tabal","Tabal"],["road_manager","Road manager"],["tecnic_so","Tècnic de so"]];
+  function funcioNom(v){ var f = FUNCIONS.filter(function(x){ return x[0]===v; })[0]; return f?f[1]:""; }
+  var UBICACIONS = [
+    {nom:"Ateneu Poblet", cerca:"Ateneu Poblet, Barcelona"},
+    {nom:"Castellers de Barcelona", cerca:"Castellers de Barcelona"},
+    {nom:"Castellers de Cornellà", cerca:"Castellers de Cornellà"}
+  ];
+
+  /* ---------- comarca / vegueria ---------- */
+  var COMARCA_VEGUERIA = {
+    "Alt Camp":"Camp de Tarragona","Alt Empordà":"Girona","Alt Penedès":"Penedès","Alt Urgell":"Alt Pirineu i Aran",
+    "Alta Ribagorça":"Alt Pirineu i Aran","Anoia":"Penedès","Bages":"Catalunya Central","Baix Camp":"Camp de Tarragona",
+    "Baix Ebre":"Terres de l'Ebre","Baix Empordà":"Girona","Baix Llobregat":"Barcelona","Baix Penedès":"Penedès",
+    "Barcelonès":"Barcelona","Berguedà":"Catalunya Central","Cerdanya":"Alt Pirineu i Aran","Conca de Barberà":"Camp de Tarragona",
+    "Garraf":"Penedès","Garrigues":"Ponent","Garrotxa":"Girona","Gironès":"Girona","Maresme":"Barcelona",
+    "Montsià":"Terres de l'Ebre","Noguera":"Ponent","Osona":"Catalunya Central","Pallars Jussà":"Alt Pirineu i Aran",
+    "Pallars Sobirà":"Alt Pirineu i Aran","Pla d'Urgell":"Ponent","Pla de l'Estany":"Girona","Priorat":"Camp de Tarragona",
+    "Ribera d'Ebre":"Terres de l'Ebre","Ripollès":"Girona","Segarra":"Ponent","Segrià":"Ponent","Selva":"Girona",
+    "Solsonès":"Catalunya Central","Tarragonès":"Camp de Tarragona","Terra Alta":"Terres de l'Ebre","Urgell":"Ponent",
+    "Vallès Occidental":"Barcelona","Vallès Oriental":"Barcelona","Val d'Aran":"Alt Pirineu i Aran",
+
+    "Alacantí":"País Valencià","Alcoià":"País Valencià","Alt Millars":"País Valencià","Alt Palància":"País Valencià",
+    "Alt Vinalopó":"País Valencià","Alt Maestrat":"País Valencià","Alcalatén":"País Valencià","Baix Maestrat":"País Valencià",
+    "Baix Millars":"País Valencià","Baix Segura":"País Valencià","Baix Vinalopó":"País Valencià","Camp de Morvedre":"País Valencià",
+    "Camp de Túria":"País Valencià","Canal de Navarrés":"País Valencià","Els Ports":"País Valencià","Foia de Bunyol":"País Valencià",
+    "Horta Nord":"País Valencià","Horta Oest":"País Valencià","Horta Sud":"País Valencià","València (Horta)":"País Valencià",
+    "La Costera":"País Valencià","La Marina Alta":"País Valencià","La Marina Baixa":"País Valencià","La Plana Alta":"País Valencià",
+    "La Plana Baixa":"País Valencià","La Ribera Alta":"País Valencià","La Ribera Baixa":"País Valencià","La Safor":"País Valencià",
+    "La Vall d'Albaida":"País Valencià","Racó d'Ademús":"País Valencià","Utiel-Requena":"País Valencià","Vinalopó Mitjà":"País Valencià",
+
+    "Rosselló":"Catalunya Nord","Vallespir":"Catalunya Nord","Conflent":"Catalunya Nord","Capcir":"Catalunya Nord",
+    "Alta Cerdanya":"Catalunya Nord","Fenolledès":"Catalunya Nord",
+
+    "Mallorca":"Illes Balears","Menorca":"Illes Balears","Eivissa":"Illes Balears","Formentera":"Illes Balears",
+
+    "Andorra la Vella":"Andorra","Canillo":"Andorra","Encamp":"Andorra","Escaldes-Engordany":"Andorra",
+    "La Massana":"Andorra","Ordino":"Andorra","Sant Julià de Lòria":"Andorra"
+  };
+  var MUNICIPI_COMARCA = {
+    "cardedeu":"Vallès Oriental","sant feliu de pallerols":"Garrotxa","cabrera de mar":"Maresme",
+    "sant antoni de vilamajor":"Vallès Oriental","palau-solita i plegamans":"Vallès Occidental","palau solita i plegamans":"Vallès Occidental",
+    "palau solita":"Vallès Occidental","escala":"Alt Empordà","aspa":"Segrià","preses":"Garrotxa","gava":"Baix Llobregat",
+    "sant sadurni d'anoia":"Alt Penedès","sant sadurni danoia":"Alt Penedès","barcelona":"Barcelonès","terrassa":"Vallès Occidental",
+    "llança":"Alt Empordà","lleida":"Segrià","vilafranca del penedes":"Alt Penedès","olot":"Garrotxa","badalona":"Barcelonès",
+    "santa coloma de gramenet":"Barcelonès","hospitalet de llobregat":"Barcelonès","hospitalet":"Barcelonès",
+    "cornella de llobregat":"Baix Llobregat","cornella":"Baix Llobregat","sant boi de llobregat":"Baix Llobregat","sant boi":"Baix Llobregat",
+    "sant cugat del valles":"Vallès Occidental","sant cugat":"Vallès Occidental","rubi":"Vallès Occidental",
+    "cerdanyola del valles":"Vallès Occidental","cerdanyola":"Vallès Occidental","mollet del valles":"Vallès Oriental","mollet":"Vallès Oriental",
+    "granollers":"Vallès Oriental","vic":"Osona","manresa":"Bages","igualada":"Anoia","vilanova i la geltru":"Garraf",
+    "vilanova":"Garraf","sitges":"Garraf","tarragona":"Tarragonès","reus":"Baix Camp","valls":"Alt Camp","tortosa":"Baix Ebre",
+    "amposta":"Montsià","girona":"Gironès","figueres":"Alt Empordà","blanes":"Selva","lloret de mar":"Selva","lloret":"Selva",
+    "palafrugell":"Baix Empordà","palamos":"Baix Empordà","sant feliu de guixols":"Baix Empordà","banyoles":"Pla de l'Estany",
+    "ripoll":"Ripollès","puigcerda":"Cerdanya","seu d'urgell":"Alt Urgell","la seu d'urgell":"Alt Urgell","balaguer":"Noguera",
+    "tarrega":"Urgell","cervera":"Segarra","mollerussa":"Pla d'Urgell","borges blanques":"Garrigues","les borges blanques":"Garrigues",
+    "solsona":"Solsonès","berga":"Berguedà","vielha":"Val d'Aran","vendrell":"Baix Penedès","el vendrell":"Baix Penedès",
+    "sabadell":"Vallès Occidental","pont de suert":"Alta Ribagorça","el pont de suert":"Alta Ribagorça","tremp":"Pallars Jussà",
+    "sort":"Pallars Sobirà","santa coloma de farners":"Selva","falset":"Priorat","mora d'ebre":"Ribera d'Ebre",
+    "gandesa":"Terra Alta","montblanc":"Conca de Barberà",
+
+    "alacant":"Alacantí","alicante":"Alacantí","alcoi":"Alcoià","segorbe":"Alt Palància","sogorb":"Alt Palància",
+    "villena":"Alt Vinalopó","vinaros":"Baix Maestrat","oriola":"Baix Segura","orihuela":"Baix Segura",
+    "elx":"Baix Vinalopó","elche":"Baix Vinalopó","sagunt":"Camp de Morvedre","sagunto":"Camp de Morvedre",
+    "lliria":"Camp de Túria","llíria":"Camp de Túria","navarres":"Canal de Navarrés","morella":"Els Ports",
+    "bunyol":"Foia de Bunyol","torrent":"Horta Sud","xativa":"La Costera","denia":"La Marina Alta",
+    "benidorm":"La Marina Baixa","castello de la plana":"La Plana Alta","castello":"La Plana Alta",
+    "castellon de la plana":"La Plana Alta","vila-real":"La Plana Baixa","vila real":"La Plana Baixa",
+    "borriana":"La Plana Baixa","alzira":"La Ribera Alta","cullera":"La Ribera Baixa","gandia":"La Safor",
+    "ontinyent":"La Vall d'Albaida","ademus":"Racó d'Ademús","requena":"Utiel-Requena","elda":"Vinalopó Mitjà",
+    "alcora":"Alcalatén","l'alcora":"Alcalatén","valencia":"Horta Nord","valència":"Horta Nord",
+
+    "perpinya":"Rosselló","perpignan":"Rosselló","ceret":"Vallespir","prada":"Conflent","formiguera":"Capcir",
+    "sallagosa":"Alta Cerdanya","font-romeu":"Alta Cerdanya","sant pau de fenollet":"Fenolledès",
+
+    "palma":"Mallorca","palma de mallorca":"Mallorca","mao":"Menorca","mao-mahon":"Menorca","ciutadella":"Menorca",
+    "eivissa":"Eivissa","ibiza":"Eivissa","sant francesc xavier":"Formentera",
+
+    "andorra la vella":"Andorra la Vella","canillo":"Canillo","encamp":"Encamp","escaldes-engordany":"Escaldes-Engordany",
+    "escaldes engordany":"Escaldes-Engordany","la massana":"La Massana","ordino":"Ordino",
+    "sant julia de loria":"Sant Julià de Lòria"
+  };
+  function normTown(s){
+    return String(s||"")
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+      .toLowerCase().trim()
+      .replace(/^(l'|la |les |el |els )/,"")
+      .replace(/[.,]/g,"")
+      .replace(/\s+/g," ");
+  }
+
+  function lookupComarca(poblacio){
+    var p = String(poblacio||"").trim();
+    if(!p) return null;
+    var c = MUNICIPI_COMARCA[normTown(p)];
+    if(c) return {comarca:c, vegueria:COMARCA_VEGUERIA[c]||""};
+    return {comarca:"", vegueria:"Estranger"};
+  }
+  function mapsUrl(nom){
+    var u = UBICACIONS.filter(function(x){ return x.nom===nom; })[0];
+    return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(u ? u.cerca : nom);
+  }
+
+  var state = { grups: [], events: [] };
+  var view = { tab:"calendari", calY:0, calM:0, selDay:null, editing:null };
+
+  /* ---------- persistència (servidor / Neon) ---------- */
+  function migrateComarques(){
+    var changed = false;
+    state.events.forEach(function(e){
+      if(e.tipus==="actuacio" && e.poblacio && (e.vegueria===undefined || e.vegueria==="")){
+        var m = lookupComarca(e.poblacio);
+        if(m){ e.comarca = m.comarca; e.vegueria = m.vegueria; changed = true; }
+      }
+      if(e.vegueria==="Lleida"){ e.vegueria = "Ponent"; changed = true; }
+    });
+    if(changed) save();
+  }
+
+  var saveTimer = null;
+  function save(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveNow, 300);
+  }
+  async function saveNow(){
+    var res;
+    try{
+      res = await fetch("/api/state", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(state)
+      });
+    }catch(e){
+      console.error(e);
+      toast("No s'han pogut desar els canvis (sense connexió?)");
+      return;
+    }
+    if(res.status === 401){ showAuthGate(); return; }
+    if(!res.ok){ toast("No s'han pogut desar els canvis al servidor"); }
+  }
+
+  async function loadFromServer(){
+    var res;
+    try{
+      res = await fetch("/api/state", {credentials:"same-origin"});
+    }catch(e){
+      console.error(e);
+      document.getElementById("boot").textContent = "No s'ha pogut connectar amb el servidor.";
+      return "error";
+    }
+    if(res.status === 401) return "unauth";
+    if(!res.ok){
+      document.getElementById("boot").textContent = "Error carregant les dades.";
+      return "error";
+    }
+    var d = null;
+    try{ d = await res.json(); }catch(e){}
+    state = (d && Array.isArray(d.events) && Array.isArray(d.grups)) ? d : {grups:[], events:[]};
+    migrateComarques();
+    return "ok";
+  }
+
+  /* ---------- autenticació ---------- */
+  function showAuthGate(){
+    document.getElementById("app").hidden = true;
+    document.getElementById("boot").hidden = true;
+    document.getElementById("authGate").hidden = false;
+    document.getElementById("authPassword").value = "";
+    document.getElementById("authPassword").focus();
+  }
+  document.getElementById("authForm").addEventListener("submit", async function(ev){
+    ev.preventDefault();
+    var pw = document.getElementById("authPassword").value;
+    var errEl = document.getElementById("authError");
+    errEl.textContent = "";
+    var res;
+    try{
+      res = await fetch("/api/login", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({password: pw})
+      });
+    }catch(e){ errEl.textContent = "No s'ha pogut connectar amb el servidor."; return; }
+    if(!res.ok){
+      errEl.textContent = "Contrasenya incorrecta";
+      document.getElementById("authPassword").value = "";
+      document.getElementById("authPassword").focus();
+      return;
+    }
+    document.getElementById("authGate").hidden = true;
+    document.getElementById("boot").hidden = false;
+    document.getElementById("boot").textContent = "Carregant les teves dades…";
+    var status = await loadFromServer();
+    if(status === "ok") finishBoot();
+    else if(status === "unauth") showAuthGate();
+  });
+
+  /* ---------- utilitats ---------- */
+  function uid(){ return "x"+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function grup(id){ for(var i=0;i<state.grups.length;i++) if(state.grups[i].id===id) return state.grups[i]; return null; }
+  function grupNom(id){ var g=grup(id); return g?g.nom:"Sense grup"; }
+  function grupColor(id){ var g=grup(id); return g?g.color:"#a29fb5"; }
+  function eur(n){ return (Math.round(Number(n)||0)).toLocaleString("ca-ES")+" €"; }
+  function iso(d){ var m=String(d.getMonth()+1),dd=String(d.getDate());
+    return d.getFullYear()+"-"+(m.length<2?"0"+m:m)+"-"+(dd.length<2?"0"+dd:dd); }
+  function parseISO(s){ var p=String(s).split("-"); return new Date(+p[0], +p[1]-1, +p[2]); }
+  function today(){ var d=new Date(); d.setHours(0,0,0,0); return d; }
+  function sorted(){ return state.events.slice().sort(function(a,b){ return a.data<b.data?-1:a.data>b.data?1:0; }); }
+  function toast(msg){
+    var el=document.createElement("div"); el.className="toast"; el.textContent=msg;
+    document.body.appendChild(el); setTimeout(function(){ el.remove(); }, 2600);
+  }
+
+  /* ---------- pestanyes ---------- */
+  var tabs = document.querySelectorAll("nav.tabs button");
+  function show(tab){
+    view.tab = tab;
+    tabs.forEach(function(b){ b.setAttribute("aria-selected", String(b.dataset.tab===tab)); });
+    ["calendari","llistat","resum","grups","bd"].forEach(function(t){
+      document.getElementById("tab-"+t).hidden = (t!==tab);
+    });
+    if(tab==="calendari") renderCal();
+    if(tab==="llistat") renderList();
+    if(tab==="resum") renderResum();
+    if(tab==="grups") renderGroups();
+    if(tab==="bd"){ fillBDFilters(); renderBD(); }
+    window.scrollTo({top:0, behavior:"instant"});
+  }
+  tabs.forEach(function(b){
+    b.addEventListener("click", function(){
+      if(b.dataset.tab==="afegir"){ startNew(); return; }
+      show(b.dataset.tab);
+    });
+  });
+
+  /* ---------- capçalera ---------- */
+  function renderHeader(){
+    var t = iso(today());
+    var next = sorted().filter(function(e){ return e.data>=t && e.estat!=="cancellat"; })[0];
+    var el = document.getElementById("topNext"), lbl = document.getElementById("topNextLbl");
+    if(next){
+      var d = parseISO(next.data);
+      var dies = Math.round((d-today())/86400000);
+      el.textContent = d.getDate()+" "+MESOS_C[d.getMonth()].toLowerCase();
+      lbl.textContent = (dies===0?"Avui":dies===1?"Demà":"D'aquí "+dies+" dies")+" · "+(next.poblacio||grupNom(next.grupId));
+    } else { el.textContent="—"; lbl.textContent="Cap bolo apuntat"; }
+  }
+
+  /* ---------- CALENDARI ---------- */
+  function renderCal(){
+    var y=view.calY, m=view.calM;
+    document.getElementById("calTitle").textContent = MESOS[m]+" "+y;
+    var first = new Date(y,m,1);
+    var start = new Date(first);
+    start.setDate(1 - ((first.getDay()+6)%7));
+    var grid = document.getElementById("calGrid");
+    var html = DIES.map(function(d){ return '<div class="dow">'+d+"</div>"; }).join("");
+    var todayIso = iso(today());
+    var seenGrups = {}, seenAssaig = false, seenAltres = false;
+    for(var i=0;i<42;i++){
+      var d = new Date(start); d.setDate(start.getDate()+i);
+      var key = iso(d);
+      var evs = state.events.filter(function(e){ return e.data===key; })
+                 .sort(function(a,b){ return (a.hora||"").localeCompare(b.hora||""); });
+      evs.forEach(function(e){
+        if(e.tipus==="actuacio") seenGrups[e.grupId||"__none"] = true;
+        else if(e.tipus==="assaig") seenAssaig = true;
+        else seenAltres = true;
+      });
+      var cls = "daycell"+(d.getMonth()!==m?" out":"")+(key===todayIso?" today":"")+(key===view.selDay?" sel":"");
+      var inner = '<span class="num">'+d.getDate()+"</span>";
+      evs.slice(0,3).forEach(function(e){
+        var st = e.tipus==="assaig" ? "" : ' style="background:'+(e.tipus==="actuacio"?grupColor(e.grupId):"#7B3FE4")+'"';
+        var c = "ev"+(e.tipus==="assaig"?" rehearsal":"")+(e.estat==="cancellat"?" cancelled":"");
+        var txt = e.tipus==="assaig" ? "Assaig" : (e.poblacio || (e.tipus==="actuacio"?grupNom(e.grupId):"Altres"));
+        inner += '<span class="'+c+'"'+st+'>'+esc(txt)+"</span>";
+      });
+      if(evs.length>3) inner += '<span class="more">+'+(evs.length-3)+"</span>";
+      var tip = evs.map(function(e){
+        var loc = e.tipus==="assaig" ? e.poblacio : (e.poblacio || (e.tipus==="altres"?"Altres":"Sense població"));
+        return loc+" · "+grupNom(e.grupId);
+      }).join("\n");
+      html += '<button class="'+cls+'" data-day="'+key+'"'+(tip?' title="'+esc(tip)+'"':'')+'>'+inner+"</button>";
+    }
+    grid.innerHTML = html;
+    grid.querySelectorAll(".daycell").forEach(function(b){
+      b.addEventListener("click", function(){ view.selDay=b.dataset.day; renderCal(); });
+    });
+    var legendItems = state.grups
+      .filter(function(g){ return seenGrups[g.id]; })
+      .map(function(g){ return '<span><i style="background:'+g.color+'"></i>'+esc(g.nom)+"</span>"; });
+    if(seenAssaig) legendItems.push('<span><i style="border:1px dashed var(--ink-30)"></i>Assaig</span>');
+    if(seenAltres) legendItems.push('<span><i style="background:#7B3FE4"></i>Altres</span>');
+    document.getElementById("calLegend").innerHTML = legendItems.join("");
+    renderDayPanel();
+  }
+  function renderDayPanel(){
+    var p = document.getElementById("dayPanel");
+    if(!view.selDay){ p.innerHTML = '<p class="sec-note" style="margin:0">Tria un dia per veure què hi tens.</p>'; return; }
+    var d = parseISO(view.selDay);
+    var evs = state.events.filter(function(e){ return e.data===view.selDay; });
+    var head = '<div class="cal-head"><h2 class="sec" style="margin:0">'+d.getDate()+" de "+MESOS[d.getMonth()].toLowerCase()+" de "+d.getFullYear()+
+      '</h2><button class="btn sm" id="addHere">Afegeix aquest dia</button></div>';
+    p.innerHTML = head + (evs.length ? evs.map(function(e){ return stub(e, {hideContact:true}); }).join("") : '<p class="sec-note">Dia lliure.</p>');
+    document.getElementById("addHere").addEventListener("click", function(){
+      startNew(view.selDay);
+    });
+    wireStubs(p);
+  }
+  document.getElementById("calPrev").addEventListener("click", function(){
+    view.calM--; if(view.calM<0){view.calM=11;view.calY--;} renderCal();
+  });
+  document.getElementById("calNext").addEventListener("click", function(){
+    view.calM++; if(view.calM>11){view.calM=0;view.calY++;} renderCal();
+  });
+  document.getElementById("calToday").addEventListener("click", function(){
+    var t=today(); view.calY=t.getFullYear(); view.calM=t.getMonth(); view.selDay=iso(t); renderCal();
+  });
+
+  /* ---------- resguards ---------- */
+  function stub(e, opts){
+    opts = opts || {};
+    var d = parseISO(e.data);
+    var isAct = e.tipus==="actuacio";
+    var isAssaig = e.tipus==="assaig";
+    var isAltres = e.tipus==="altres";
+    var color = isAct ? grupColor(e.grupId) : (isAssaig ? "#5a5477" : "#7B3FE4");
+    var title = isAct ? (e.poblacio || "Sense població") : (isAssaig ? "Assaig" : (e.poblacio || "Altres"));
+    var bits = [];
+    bits.push(grupNom(e.grupId));
+    if(isAct && e.colla) bits.push(e.colla);
+    if(isAct && e.funcio) bits.push(funcioNom(e.funcio));
+    if(e.hora) bits.push(e.hora + (e.horaFi ? "–"+e.horaFi : "") + " h");
+    if(!opts.hideContact && e.contacte) bits.push(e.contacte + (e.telefon?" · "+e.telefon:""));
+    if(e.obs) bits.push(e.obs);
+    var metaHtml = esc(bits.filter(Boolean).join(" · "));
+    if(isAssaig && e.poblacio){
+      var locHtml = '<a class="map-link" href="'+mapsUrl(e.poblacio)+'" target="_blank" rel="noopener">📍 '+esc(e.poblacio)+"</a>";
+      metaHtml = metaHtml ? locHtml+" · "+metaHtml : locHtml;
+    }
+    var tags = "";
+    if(isAct){
+      if(e.estat==="pendent") tags += '<span class="tag warn">Per confirmar</span>';
+      if(e.estat==="cancellat") tags += '<span class="tag dead">Cancel·lat</span>';
+      if(e.estat!=="cancellat" && e.import){
+        tags += '<span class="tag pay-toggle '+(e.cobrat?"is-paid":"is-due")+'" data-pay="'+e.id+'" role="button" tabindex="0">'+
+          (e.cobrat?"COBRAT":"PENDENT DE COBRAR")+'</span>';
+      }
+    } else if(isAssaig) tags = '<span class="tag">Assaig</span>';
+    else tags = '<span class="tag">Altres</span>';
+    var amount = isAct
+      ? (e.perDeterminar
+          ? '<span class="amount zero" style="font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em">Per determinar</span>'
+          : '<span class="amount'+((!e.import)?" zero":"")+'">'+(e.import==null?"—":eur(e.import))+"</span>")
+      : "";
+    return '<article class="stub'+(e.estat==="cancellat"?" cancelled":"")+'">'+
+      '<div class="stub-date" style="background:'+color+'"><span class="d">'+d.getDate()+'</span>'+
+        '<span class="m">'+MESOS_C[d.getMonth()]+'</span><span class="y">'+d.getFullYear()+'</span></div>'+
+      '<div class="perf"></div>'+
+      '<div class="stub-main"><b>'+esc(title)+(isAct && e.comarca ? ' <span class="stub-comarca">· '+esc(e.comarca)+'</span>' : '')+"</b>"+
+        '<div class="stub-meta">'+metaHtml+"</div></div>"+
+      '<div class="stub-side">'+amount+'<div class="stub-tags">'+tags+"</div>"+
+        '<div class="stub-tools">'+
+          '<button class="btn sm ghost" data-edit="'+e.id+'">Edita</button>'+
+          '<button class="del-btn" data-del="'+e.id+'" title="Esborra" aria-label="Esborra">✕</button>'+
+        "</div></div></article>";
+  }
+  var confirmDelDlg = document.getElementById("confirmDelDlg");
+  var pendingDelete = null;
+  function askDelete(detail, fn, title){
+    pendingDelete = fn;
+    document.getElementById("confirmDelTitle").textContent = title || "Vols eliminar l'esdeveniment?";
+    document.getElementById("confirmDelDetail").textContent = detail || "";
+    confirmDelDlg.showModal();
+  }
+  document.getElementById("confirmDelYes").addEventListener("click", function(){
+    confirmDelDlg.close();
+    if(pendingDelete) pendingDelete();
+    pendingDelete = null;
+  });
+  document.getElementById("confirmDelNo").addEventListener("click", function(){
+    confirmDelDlg.close();
+    pendingDelete = null;
+  });
+
+  function wireStubs(root){
+    root.querySelectorAll("[data-edit]").forEach(function(b){
+      b.addEventListener("click", function(){ startEdit(b.dataset.edit); });
+    });
+    root.querySelectorAll("[data-del]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var e = state.events.filter(function(x){ return x.id===b.dataset.del; })[0];
+        if(!e) return;
+        var id = b.dataset.del;
+        askDelete((e.poblacio||"Aquesta entrada")+" · "+e.data, function(){
+          state.events = state.events.filter(function(x){ return x.id!==id; });
+          save(); refresh(); toast("Entrada esborrada");
+        });
+      });
+    });
+    root.querySelectorAll("[data-pay]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var e = state.events.filter(function(x){ return x.id===b.dataset.pay; })[0];
+        if(!e) return;
+        e.cobrat = !e.cobrat; save(); refresh();
+        toast(e.cobrat ? "Marcat com a cobrat" : "Marcat com a pendent de cobrar");
+      });
+    });
+  }
+
+  /* ---------- FORMULARI ---------- */
+  var form = document.getElementById("entryForm");
+  function fillGroupSelect(){
+    var s = document.getElementById("f_grup");
+    s.innerHTML = state.grups.map(function(g){ return '<option value="'+g.id+'">'+esc(g.nom)+"</option>"; }).join("")+
+      '<option value="">Sense grup</option>';
+  }
+  function tipusVal(){ return form.querySelector('input[name="tipus"]:checked').value; }
+  function syncType(){
+    var t = tipusVal();
+    var isAct = t==="actuacio";
+    var isGrup = t==="grup";
+    document.getElementById("payBlock").hidden = !isAct;
+    document.getElementById("actLocBlock").hidden = !isAct;
+    document.getElementById("altresLocBlock").hidden = t!=="altres";
+    document.getElementById("repeatBlock").hidden = isAct || isGrup || view.editing;
+    document.getElementById("dateGrid").hidden = isGrup;
+    document.getElementById("groupFormBlock").hidden = !isGrup;
+    document.getElementById("obsBlock").hidden = isGrup;
+    document.getElementById("entryDlgTitle").textContent = view.editing ? "Edita el bolo" : "Nova entrada";
+  }
+  var newGroupFotoPicker = makeFotoPicker({file:"gf_foto", box:"gf_fotoPositionBox", wrap:"gf_fotoPreviewWrap", remove:"gf_fotoRemove"});
+  document.getElementById("f_poblacio").addEventListener("input", function(){
+    var m = lookupComarca(this.value);
+    if(m){
+      document.getElementById("f_comarca").value = m.comarca;
+      document.getElementById("f_vegueria").value = m.vegueria;
+    }
+  });
+  document.getElementById("f_comarca").addEventListener("change", function(){
+    var v = this.value.trim();
+    if(COMARCA_VEGUERIA[v]) document.getElementById("f_vegueria").value = COMARCA_VEGUERIA[v];
+  });
+  document.getElementById("f_perDeterminar").addEventListener("change", function(){
+    var imp = document.getElementById("f_import");
+    imp.disabled = this.checked;
+    if(this.checked) imp.value = "";
+  });
+  form.querySelectorAll('input[name="tipus"]').forEach(function(r){ r.addEventListener("change", syncType); });
+  document.getElementById("f_repeatFreq").addEventListener("change", function(){
+    var on = this.value !== "0";
+    var finsEl = document.getElementById("f_repeatFins");
+    finsEl.hidden = !on;
+    if(on){
+      var base = document.getElementById("f_data").value || iso(today());
+      if(!finsEl.value || finsEl.value < base) finsEl.value = base;
+      finsEl.min = base;
+      document.getElementById("repeatHint").textContent = "Es repetirà "+
+        (this.value==="7"?"cada setmana":this.value==="14"?"cada 15 dies":"un cop al mes")+
+        " fins al dia que triïs (inclòs).";
+    } else document.getElementById("repeatHint").textContent = "";
+  });
+  document.getElementById("f_grup").addEventListener("change", function(){
+    var g = grup(this.value); if(!g) return;
+    if(!document.getElementById("f_import").value && g.importDefecte!=null) document.getElementById("f_import").value = g.importDefecte;
+    if(!document.getElementById("f_contacte").value && g.contacte) document.getElementById("f_contacte").value = g.contacte;
+    if(!document.getElementById("f_telefon").value && g.telefon) document.getElementById("f_telefon").value = g.telefon;
+  });
+
+  function resetForm(){
+    form.reset(); document.getElementById("f_id").value="";
+    view.editing = null;
+    document.getElementById("saveBtn").textContent = "Desa";
+    document.getElementById("cancelEdit").hidden = true;
+    document.getElementById("f_repeatFreq").value = "0";
+    document.getElementById("f_repeatFins").hidden = true;
+    document.getElementById("f_repeatFins").value = "";
+    document.getElementById("repeatHint").textContent = "";
+    document.getElementById("f_perDeterminar").checked = false;
+    document.getElementById("f_import").disabled = false;
+    document.getElementById("tipusGrupLabel").hidden = false;
+    document.getElementById("gf_color").value = PALETTE[state.grups.length%PALETTE.length];
+    newGroupFotoPicker.reset(null, {x:50,y:50});
+    syncType();
+  }
+  var entryDlg = document.getElementById("entryDlg");
+  function startNew(dateIso){
+    resetForm();
+    document.getElementById("entryDlgTitle").textContent = "Nova entrada";
+    document.getElementById("f_data").value = dateIso || iso(today());
+    entryDlg.showModal();
+    document.getElementById("f_poblacio").focus();
+  }
+  function startEdit(id){
+    var e = state.events.filter(function(x){ return x.id===id; })[0];
+    if(!e) return;
+    resetForm();
+    view.editing = id;
+    document.getElementById("tipusGrupLabel").hidden = true;
+    document.getElementById("entryDlgTitle").textContent = "Edita el bolo";
+    document.getElementById("f_id").value = id;
+    var typeRadio = form.querySelector('input[name="tipus"][value="'+e.tipus+'"]');
+    if(typeRadio) typeRadio.checked = true;
+    else form.querySelector('input[name="tipus"][value="altres"]').checked = true;
+    document.getElementById("f_data").value = e.data;
+    document.getElementById("f_hora").value = e.hora||"";
+    document.getElementById("f_horaFi").value = e.horaFi||"";
+    document.getElementById("f_grup").value = e.grupId||"";
+    document.getElementById("f_poblacio").value = e.poblacio||"";
+    document.getElementById("f_colla").value = e.colla||"";
+    document.getElementById("f_funcio").value = e.funcio||"";
+    document.getElementById("f_comarca").value = e.comarca||"";
+    document.getElementById("f_vegueria").value = e.vegueria||"";
+    document.getElementById("f_altres").value = (e.tipus==="altres"||e.tipus==="assaig") ? (e.poblacio||"") : "";
+    document.getElementById("f_import").value = (e.import==null?"":e.import);
+    document.getElementById("f_perDeterminar").checked = !!e.perDeterminar;
+    document.getElementById("f_import").disabled = !!e.perDeterminar;
+    document.getElementById("f_estat").value = e.estat||"confirmat";
+    document.getElementById("f_cobrat").checked = !!e.cobrat;
+    document.getElementById("f_contacte").value = e.contacte||"";
+    document.getElementById("f_telefon").value = e.telefon||"";
+    document.getElementById("f_obs").value = e.obs||"";
+    document.getElementById("saveBtn").textContent = "Desa els canvis";
+    document.getElementById("cancelEdit").hidden = false;
+    syncType();
+    entryDlg.showModal();
+  }
+  document.getElementById("cancelEdit").addEventListener("click", function(){ resetForm(); entryDlg.close(); });
+  document.getElementById("entryDlgClose").addEventListener("click", function(){ resetForm(); entryDlg.close(); });
+  entryDlg.addEventListener("close", function(){ resetForm(); });
+
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    saveEntry();
+  });
+  document.getElementById("saveBtn").addEventListener("click", function(ev){
+    ev.preventDefault();
+    saveEntry();
+  });
+  form.addEventListener("keydown", function(ev){
+    if(ev.key==="Enter" && ev.target.tagName!=="TEXTAREA"){
+      ev.preventDefault();
+      saveEntry();
+    }
+  });
+  function saveNewGroupFromForm(){
+    var nomEl = document.getElementById("gf_nom");
+    if(!nomEl.value.trim()){ nomEl.focus(); toast("Falta el nom del grup"); return; }
+    var imp = document.getElementById("gf_import").value;
+    var data = {
+      id: uid(),
+      nom: nomEl.value.trim(),
+      color: document.getElementById("gf_color").value,
+      importDefecte: imp===""?null:Number(imp),
+      contacte: document.getElementById("gf_contacte").value.trim(),
+      telefon: document.getElementById("gf_telefon").value.trim()
+    };
+    var pendingFoto = newGroupFotoPicker.getPending();
+    if(pendingFoto){ data.foto = pendingFoto; data.fotoPos = newGroupFotoPicker.getPos(); }
+    state.grups.push(data);
+    save(); refresh(); toast("Grup afegit");
+    entryDlg.close();
+  }
+  function saveEntry(){
+    var t = tipusVal();
+    if(t==="grup"){ saveNewGroupFromForm(); return; }
+    var isAct = t==="actuacio";
+    var perDet = isAct && document.getElementById("f_perDeterminar").checked;
+    var impRaw = document.getElementById("f_import").value;
+    var base = {
+      tipus: t,
+      data: document.getElementById("f_data").value,
+      hora: document.getElementById("f_hora").value,
+      horaFi: document.getElementById("f_horaFi").value,
+      grupId: document.getElementById("f_grup").value,
+      poblacio: isAct ? document.getElementById("f_poblacio").value.trim()
+                : document.getElementById("f_altres").value.trim(),
+      colla: isAct ? document.getElementById("f_colla").value.trim() : "",
+      funcio: isAct ? document.getElementById("f_funcio").value : "",
+      comarca: isAct ? document.getElementById("f_comarca").value.trim() : "",
+      vegueria: isAct ? document.getElementById("f_vegueria").value.trim() : "",
+      import: (isAct && !perDet) ? (impRaw===""?null:Number(impRaw)) : null,
+      perDeterminar: perDet,
+      cobrat: isAct ? document.getElementById("f_cobrat").checked : false,
+      estat: isAct ? document.getElementById("f_estat").value : "confirmat",
+      contacte: isAct ? document.getElementById("f_contacte").value.trim() : "",
+      telefon: isAct ? document.getElementById("f_telefon").value.trim() : "",
+      obs: document.getElementById("f_obs").value.trim()
+    };
+    if(!base.data){ toast("Falta la data"); return; }
+    if(view.editing){
+      var e = state.events.filter(function(x){ return x.id===view.editing; })[0];
+      if(e){
+        Object.keys(base).forEach(function(k){ e[k]=base[k]; });
+        save(); refresh(); toast("Canvis desats");
+      }
+      entryDlg.close();
+      return;
+    }
+    var dates = [base.data];
+    if(!isAct){
+      var freq = document.getElementById("f_repeatFreq").value;
+      var fins = document.getElementById("f_repeatFins").value;
+      if(freq!=="0" && fins){
+        var finsD = parseISO(fins);
+        var d = parseISO(base.data);
+        while(true){
+          if(freq==="m") d.setMonth(d.getMonth()+1); else d.setDate(d.getDate()+Number(freq));
+          if(d>finsD) break;
+          dates.push(iso(d));
+        }
+      }
+    }
+    dates.forEach(function(dt){
+      var copy = JSON.parse(JSON.stringify(base));
+      copy.id = uid(); copy.data = dt;
+      state.events.push(copy);
+    });
+    save(); refresh();
+    toast(dates.length>1 ? dates.length+" assajos afegits" : "Afegit al calendari");
+    entryDlg.close();
+  }
+
+  /* ---------- LLISTAT ---------- */
+  function yearsList(){
+    var ys = {}; state.events.forEach(function(e){ ys[e.data.slice(0,4)]=1; });
+    var t = String(today().getFullYear()); ys[t]=1;
+    return Object.keys(ys).sort().reverse();
+  }
+  function funcioOptions(){
+    return '<option value="">Totes</option>'+FUNCIONS.map(function(f){ return '<option value="'+f[0]+'">'+f[1]+"</option>"; }).join("");
+  }
+  function fillFilters(){
+    var ay = document.getElementById("fl_any"), prev = ay.value;
+    ay.innerHTML = '<option value="">Tots els anys</option>'+yearsList().map(function(y){ return '<option value="'+y+'">'+y+"</option>"; }).join("");
+    ay.value = prev;
+    var g = document.getElementById("fl_grup"), pg = g.value;
+    g.innerHTML = '<option value="">Tots els grups</option>'+state.grups.map(function(x){ return '<option value="'+x.id+'">'+esc(x.nom)+"</option>"; }).join("");
+    g.value = pg;
+    var flfu = document.getElementById("fl_funcio"), pflfu = flfu.value;
+    if(!flfu.options.length) flfu.innerHTML = funcioOptions();
+    flfu.value = pflfu;
+    var fld = document.getElementById("fl_mesDes"), flf = document.getElementById("fl_mesFins");
+    if(!fld.options.length){
+      var flMonthOpts = '<option value="">Tots</option>'+MESOS.map(function(m,i){ return '<option value="'+i+'">'+m+"</option>"; }).join("");
+      fld.innerHTML = flMonthOpts; flf.innerHTML = flMonthOpts;
+    }
+    var ry = document.getElementById("r_any"), pr = ry.value;
+    ry.innerHTML = '<option value="">Tot l\'històric</option>'+yearsList().map(function(y){ return '<option value="'+y+'">'+y+"</option>"; }).join("");
+    ry.value = pr || String(today().getFullYear());
+    var rg = document.getElementById("r_grup"), prg = rg.value;
+    rg.innerHTML = '<option value="">Tots els grups</option>'+state.grups.map(function(g){ return '<option value="'+g.id+'">'+esc(g.nom)+"</option>"; }).join("");
+    rg.value = prg;
+    var rfu = document.getElementById("r_funcio"), prfu = rfu.value;
+    if(!rfu.options.length) rfu.innerHTML = funcioOptions();
+    rfu.value = prfu;
+  }
+  ["fl_any","fl_mesDes","fl_mesFins","fl_grup","fl_funcio","fl_pag"].forEach(function(id){
+    document.getElementById(id).addEventListener("input", renderList);
+  });
+  function byUpcomingThenPast(a,b){
+    var t = iso(today());
+    var af = a.data>=t, bf = b.data>=t;
+    if(af!==bf) return af ? -1 : 1;
+    return af ? (a.data<b.data?-1:a.data>b.data?1:0) : (a.data<b.data?1:a.data>b.data?-1:0);
+  }
+  function renderList(){
+    var fy = document.getElementById("fl_any").value;
+    var fg = document.getElementById("fl_grup").value;
+    var ffu = document.getElementById("fl_funcio").value;
+    var fp = document.getElementById("fl_pag").value;
+    var fmdRaw = document.getElementById("fl_mesDes").value;
+    var fmfRaw = document.getElementById("fl_mesFins").value;
+    var rows = state.events.slice().sort(byUpcomingThenPast).filter(function(e){
+      if(fy && e.data.slice(0,4)!==fy) return false;
+      if(fg && e.grupId!==fg) return false;
+      if(ffu && e.funcio!==ffu) return false;
+      if(fp==="1" && !e.cobrat) return false;
+      if(fp==="0" && (e.cobrat || e.tipus!=="actuacio")) return false;
+      if(fmdRaw!=="" || fmfRaw!==""){
+        var fmd = fmdRaw===""?0:Number(fmdRaw), fmf = fmfRaw===""?11:Number(fmfRaw);
+        var mo = parseISO(e.data).getMonth();
+        var dins = fmd<=fmf ? (mo>=fmd && mo<=fmf) : (mo>=fmd || mo<=fmf);
+        if(!dins) return false;
+      }
+      return true;
+    });
+    var tot = rows.reduce(function(s,e){ return s + (e.tipus==="actuacio" && e.estat!=="cancellat" ? (e.import||0) : 0); },0);
+    document.getElementById("listCount").textContent = rows.length+" entrades";
+    document.getElementById("listSum").textContent = "Suma: "+eur(tot);
+    var body = document.getElementById("listBody");
+    if(rows.length){
+      var t = iso(today());
+      var html = "", dividerDone = false;
+      rows.forEach(function(e, idx){
+        if(!dividerDone && idx>0 && e.data<t){
+          html += '<div class="list-divider"><span>Bolos passats</span></div>';
+          dividerDone = true;
+        }
+        html += stub(e, {hideContact:true});
+      });
+      body.innerHTML = html;
+    } else {
+      body.innerHTML = '<div class="empty"><p>Cap entrada amb aquests filtres.</p><button class="btn" id="emptyAdd">Afegeix un bolo</button></div>';
+    }
+    if(!rows.length) document.getElementById("emptyAdd").addEventListener("click", function(){ startNew(); });
+    wireStubs(body);
+  }
+
+  /* ---------- RESUM ---------- */
+  document.getElementById("r_any").addEventListener("change", renderResum);
+  document.getElementById("r_grup").addEventListener("change", renderResum);
+  document.getElementById("r_funcio").addEventListener("change", renderResum);
+  function renderResum(){
+    var y = document.getElementById("r_any").value;
+    var rg = document.getElementById("r_grup").value;
+    var rfu = document.getElementById("r_funcio").value;
+    var all = state.events.filter(function(e){
+      if(y && e.data.slice(0,4)!==y) return false;
+      if(rg && e.grupId!==rg) return false;
+      if(rfu && e.funcio!==rfu) return false;
+      return true;
+    });
+    var acts = all.filter(function(e){ return e.tipus==="actuacio" && e.estat!=="cancellat"; });
+    var cobrat = acts.filter(function(e){ return e.cobrat; }).reduce(function(s,e){ return s+(e.import||0); },0);
+    var pend = acts.filter(function(e){ return !e.cobrat; }).reduce(function(s,e){ return s+(e.import||0); },0);
+    var perConf = all.filter(function(e){ return e.tipus==="actuacio" && e.estat==="pendent"; }).length;
+
+    document.getElementById("kpis").innerHTML = [
+      kpi("Ingressat", eur(cobrat), acts.filter(function(e){return e.cobrat;}).length+" bolos cobrats", true),
+      kpi("Per cobrar", eur(pend), acts.filter(function(e){return !e.cobrat;}).length+" pendents"),
+      kpi("Facturat", eur(cobrat+pend), "Total del període"),
+      kpi("Actuacions", String(acts.length), perConf?perConf+" per confirmar":"Totes confirmades")
+    ].join("");
+
+    // gràfic mensual (apilat per grup, colors propis: total facturat)
+    var monthIdx = []; for(var mi=0; mi<12; mi++) monthIdx.push(mi);
+    var monthGroups = {}; monthIdx.forEach(function(mi){ monthGroups[mi] = {}; });
+    acts.forEach(function(e){
+      var mo = parseISO(e.data).getMonth();
+      if(monthGroups[mo]===undefined) return;
+      var gid = e.grupId || "__none";
+      monthGroups[mo][gid] = (monthGroups[mo][gid]||0) + (e.import||0);
+    });
+    var months = monthIdx.map(function(mi){
+      var mg = monthGroups[mi], t=0; Object.keys(mg).forEach(function(k){ t += mg[k]; }); return t;
+    });
+    var monthCounts = monthIdx.map(function(mi){
+      return acts.filter(function(e){ return parseISO(e.data).getMonth()===mi; }).length;
+    });
+    var maxMes = Math.max.apply(null, months.concat([1]));
+    var groupOrder = state.grups.map(function(g){ return g.id; }).concat(["__none"]);
+    var chartEl = document.getElementById("chart");
+    var yearsEl = document.getElementById("chartYears");
+    if(y===""){
+      // gràfic per anys (barres horitzontals apilades per grup)
+      document.getElementById("chartTitle").textContent = "Ingressos per any";
+      chartEl.hidden = true; yearsEl.hidden = false;
+      var yearGroups = {};
+      acts.forEach(function(e){
+        var yr = e.data.slice(0,4);
+        if(!yearGroups[yr]) yearGroups[yr] = {};
+        var gid = e.grupId || "__none";
+        yearGroups[yr][gid] = (yearGroups[yr][gid]||0) + (e.import||0);
+      });
+      var yrList = Object.keys(yearGroups).sort();
+      var yrTotals = yrList.map(function(yr){
+        var yg = yearGroups[yr], t=0; Object.keys(yg).forEach(function(k){ t += yg[k]; }); return t;
+      });
+      var maxYr = Math.max.apply(null, yrTotals.concat([1]));
+      yearsEl.className = "year-rows";
+      yearsEl.innerHTML = yrList.map(function(yr,i){
+        var yg = yearGroups[yr];
+        var tot = yrTotals[i];
+        var w = tot ? Math.max(2, Math.round(tot/maxYr*100)) : 0;
+        var segs = "";
+        groupOrder.forEach(function(gid){
+          var gt = yg[gid]; if(!gt) return;
+          var color = gid==="__none" ? "var(--ink-30)" : grupColor(gid);
+          segs += '<div style="flex:'+gt+' 0 0;background:'+color+'" title="'+esc(grupNom(gid==="__none"?"":gid))+' · '+eur(gt)+'"></div>';
+        });
+        return '<div class="year-row"><span class="yr-lbl">'+yr+'</span>'+
+          '<div class="yr-track" style="width:'+w+'%">'+segs+'</div>'+
+          '<span class="yr-total">'+eur(tot)+'</span></div>';
+      }).join("") || '<p class="sec-note" style="margin:0">Encara no hi ha dades.</p>';
+    } else {
+      document.getElementById("chartTitle").textContent = "Ingressos per mes";
+      chartEl.hidden = false; yearsEl.hidden = true;
+      chartEl.style.gridTemplateColumns = "repeat("+monthIdx.length+",1fr)";
+      chartEl.innerHTML = monthIdx.map(function(mi,i){
+        var mg = monthGroups[mi];
+        var v = months[i];
+        var cnt = monthCounts[i];
+        var h = v ? Math.max(3, Math.round(v/maxMes*100)) : 0;
+        var segs = "";
+        groupOrder.forEach(function(gid){
+          var gt = mg[gid]; if(!gt) return;
+          var color = gid==="__none" ? "var(--ink-30)" : grupColor(gid);
+          segs += '<div style="flex:'+gt+' 0 0;background:'+color+'" title="'+esc(grupNom(gid==="__none"?"":gid))+' · '+eur(gt)+'"></div>';
+        });
+        return '<div class="bar-col">'+
+          '<div class="bar-track">'+
+            '<span class="bar-val" style="bottom:calc('+h+'% + 4px)">'+((v||cnt)?('<span class="cnt">'+cnt+(cnt===1?" bolo":" bolos")+'</span><span class="amt">'+eur(v)+'</span>'):"")+'</span>'+
+            '<div class="bar" style="height:'+h+'%;'+(v?"":"background:var(--rule)")+';display:flex;flex-direction:column;overflow:hidden">'+segs+'</div>'+
+          '</div>'+
+          '<span class="bar-lbl">'+MESOS_C[mi]+"</span></div>";
+      }).join("");
+    }
+
+    // comarques i vegueries (desplegables amb les poblacions)
+    renderGeoPanel("byComarca", geoGroups(acts, "comarca"));
+    renderGeoPanel("byVegueria", geoGroups(acts, "vegueria"));
+
+  }
+  function kpi(label, big, small, accent){
+    return '<div class="kpi'+(accent?" accent":"")+'"><span>'+label+"</span><b>"+big+"</b>"+(small?"<small>"+small+"</small>":"")+"</div>";
+  }
+  function table(cols, rows, nums){
+    return "<table><thead><tr>"+cols.map(function(c,i){ return '<th class="'+(nums[i]?"num":"")+'">'+c+"</th>"; }).join("")+
+      "</tr></thead><tbody>"+rows.map(function(r){
+        return "<tr>"+r.map(function(c,i){ return '<td class="'+(nums[i]?"num":"")+'">'+c+"</td>"; }).join("")+"</tr>";
+      }).join("")+"</tbody></table>";
+  }
+  function nores(){ return '<p class="sec-note" style="margin:0">Encara no hi ha dades.</p>'; }
+  function geoGroups(acts, field){
+    var groups = {};
+    acts.forEach(function(e){
+      var key = e[field];
+      if(!key) return;
+      if(!groups[key]) groups[key] = {count:0, items:[]};
+      groups[key].count++;
+      groups[key].items.push({poblacio: e.poblacio||"Sense població", grupId: e.grupId, data: e.data});
+    });
+    return Object.keys(groups).map(function(k){ return {name:k, count:groups[k].count, items:groups[k].items}; })
+      .sort(function(a,b){ return b.count-a.count || a.name.localeCompare(b.name); });
+  }
+  function renderGeoPanel(containerId, rows){
+    var host = document.getElementById(containerId);
+    if(!rows.length){ host.innerHTML = nores(); return; }
+    host.innerHTML = rows.map(function(r, idx){
+      var items = r.items.slice().sort(function(a,b){ return a.data<b.data?-1:a.data>b.data?1:0; });
+      var subId = containerId+"-sub-"+idx;
+      return '<div class="geo-row">'+
+        '<button class="geo-toggle" data-target="'+subId+'" aria-expanded="false">'+
+          '<span><span class="arrow">▸</span>'+esc(r.name)+'</span>'+
+          '<span class="geo-count">'+r.count+(r.count===1?" bolo":" bolos")+'</span>'+
+        '</button>'+
+        '<div class="geo-sub" id="'+subId+'" hidden>'+
+          items.map(function(it){
+            var d = parseISO(it.data);
+            var dataFmt = d.getDate()+" "+MESOS_C[d.getMonth()].toLowerCase()+" "+d.getFullYear();
+            return '<div class="geo-sub-row"><span>'+esc(it.poblacio)+'</span>'+
+              '<span>'+esc(grupNom(it.grupId))+' · '+dataFmt+'</span></div>';
+          }).join("")+
+        '</div></div>';
+    }).join("");
+    host.querySelectorAll(".geo-toggle").forEach(function(b){
+      b.addEventListener("click", function(){
+        var sub = document.getElementById(b.dataset.target);
+        var willOpen = sub.hidden;
+        sub.hidden = !willOpen;
+        b.setAttribute("aria-expanded", String(willOpen));
+      });
+    });
+  }
+
+  /* ---------- GRUPS ---------- */
+  /* ---------- BASE DE DADES ---------- */
+  var ESTATS = [["confirmat","Confirmat"],["pendent","Pendent"],["cancellat","Cancel·lat"]];
+  function opt(value, label, selected){
+    return '<option value="'+esc(value)+'"'+(selected?" selected":"")+'>'+esc(label)+"</option>";
+  }
+  function bdGroupOptions(sel){
+    return state.grups.map(function(g){ return opt(g.id, g.nom, g.id===sel); }).join("") + opt("", "Sense grup", !sel);
+  }
+  function bdRow(e){
+    var isAct = e.tipus==="actuacio";
+    var isPast = e.data < iso(today());
+    return '<tr data-id="'+e.id+'" class="'+(isPast?"bd-past":"bd-future")+'">'+
+      '<td><select data-f="tipus">'+opt("actuacio","Actuació",e.tipus==="actuacio")+opt("assaig","Assaig",e.tipus==="assaig")+opt("altres","Altres",e.tipus==="altres")+'</select></td>'+
+      '<td><input type="date" data-f="data" value="'+esc(e.data||"")+'"></td>'+
+      '<td><select data-f="grupId">'+bdGroupOptions(e.grupId)+'</select></td>'+
+      '<td><input type="text" data-f="poblacio" value="'+esc(e.poblacio||"")+'"></td>'+
+      '<td><input type="text" data-f="colla" value="'+esc(e.colla||"")+'"></td>'+
+      '<td><select data-f="funcio">'+opt("","—",!e.funcio)+FUNCIONS.map(function(f){ return opt(f[0],f[1],e.funcio===f[0]); }).join("")+'</select></td>'+
+      '<td><input type="text" data-f="comarca" list="comarquesList" autocomplete="off" value="'+esc(e.comarca||"")+'"></td>'+
+      '<td><input type="text" data-f="vegueria" value="'+esc(e.vegueria||"")+'"></td>'+
+      '<td><input type="time" data-f="hora" value="'+esc(e.hora||"")+'"></td>'+
+      '<td><input type="time" data-f="horaFi" value="'+esc(e.horaFi||"")+'"></td>'+
+      '<td><input type="number" min="0" step="1" data-f="import" value="'+(e.import==null?"":e.import)+'"'+(e.perDeterminar?" disabled":"")+'></td>'+
+      '<td style="text-align:center"><input type="checkbox" data-f="cobrat"'+(e.cobrat?" checked":"")+'></td>'+
+      '<td><select data-f="estat">'+ESTATS.map(function(s){ return opt(s[0],s[1],e.estat===s[0]); }).join("")+'</select></td>'+
+      '<td><input type="text" data-f="contacte" value="'+esc(e.contacte||"")+'"></td>'+
+      '<td><input type="text" data-f="telefon" value="'+esc(e.telefon||"")+'"></td>'+
+      '<td class="obs-cell"><input type="text" data-f="obs" value="'+esc(e.obs||"")+'"></td>'+
+      '<td><button type="button" class="btn sm ghost danger" data-bddel="'+e.id+'" title="Esborra">✕</button></td>'+
+      "</tr>";
+  }
+  function renderBD(){
+    var q = document.getElementById("bd_cerca").value.toLowerCase().trim();
+    var fy = document.getElementById("bd_any").value;
+    var fg = document.getElementById("bd_grup").value;
+    var ffu = document.getElementById("bd_funcio").value;
+    var rows = state.events.slice().sort(function(a,b){ return a.data<b.data?-1:a.data>b.data?1:0; }).filter(function(e){
+      if(fy && e.data.slice(0,4)!==fy) return false;
+      if(fg && e.grupId!==fg) return false;
+      if(ffu && e.funcio!==ffu) return false;
+      if(view.bdMonths.length && view.bdMonths.indexOf(String(parseISO(e.data).getMonth()))<0) return false;
+      if(!q) return true;
+      var hay = [e.poblacio,e.colla,e.comarca,e.vegueria,e.contacte,e.telefon,e.obs,grupNom(e.grupId)].join(" ").toLowerCase();
+      return hay.indexOf(q)>=0;
+    });
+    document.getElementById("bdCount").textContent = rows.length+" entrades";
+    var body = document.getElementById("bdBody");
+    body.innerHTML = rows.map(bdRow).join("");
+  }
+  function fillBDFilters(){
+    var ay = document.getElementById("bd_any"), prev = ay.value;
+    ay.innerHTML = '<option value="">Tots els anys</option>'+yearsList().map(function(y){ return '<option value="'+y+'">'+y+"</option>"; }).join("");
+    ay.value = prev;
+    var ag = document.getElementById("bd_grup"), pg = ag.value;
+    ag.innerHTML = '<option value="">Tots els grups</option>'+state.grups.map(function(g){ return '<option value="'+g.id+'">'+esc(g.nom)+"</option>"; }).join("");
+    ag.value = pg;
+    var afu = document.getElementById("bd_funcio"), pfu = afu.value;
+    if(!afu.options.length) afu.innerHTML = funcioOptions();
+    afu.value = pfu;
+  }
+  document.getElementById("bd_cerca").addEventListener("input", renderBD);
+  document.getElementById("bd_any").addEventListener("change", renderBD);
+  document.getElementById("bd_grup").addEventListener("change", renderBD);
+  document.getElementById("bd_funcio").addEventListener("change", renderBD);
+
+  /* ---------- selector de mesos (multi) ---------- */
+  view.bdMonths = [];
+  (function monthPicker(){
+    var btn = document.getElementById("bd_mesBtn");
+    var panel = document.getElementById("bd_mesPanel");
+    panel.innerHTML = MESOS.map(function(m,i){
+      return '<label><input type="checkbox" value="'+i+'"> '+m+"</label>";
+    }).join("") +
+      '<div class="month-panel-actions">'+
+        '<button type="button" class="btn sm ghost" id="bd_mesAll">Tots</button>'+
+        '<button type="button" class="btn sm ghost" id="bd_mesNone">Cap</button>'+
+      "</div>";
+    function updateLabel(){
+      if(!view.bdMonths.length) btn.textContent = "Tots els mesos";
+      else if(view.bdMonths.length===1) btn.textContent = MESOS[Number(view.bdMonths[0])];
+      else btn.textContent = view.bdMonths.length+" mesos";
+    }
+    function syncFromChecks(){
+      view.bdMonths = Array.prototype.slice.call(panel.querySelectorAll('input:checked')).map(function(cb){ return cb.value; });
+      updateLabel(); renderBD();
+    }
+    panel.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
+      cb.addEventListener("change", syncFromChecks);
+    });
+    document.getElementById("bd_mesAll").addEventListener("click", function(){
+      panel.querySelectorAll('input[type="checkbox"]').forEach(function(cb){ cb.checked = true; });
+      syncFromChecks();
+    });
+    document.getElementById("bd_mesNone").addEventListener("click", function(){
+      panel.querySelectorAll('input[type="checkbox"]').forEach(function(cb){ cb.checked = false; });
+      syncFromChecks();
+    });
+    btn.addEventListener("click", function(ev){
+      ev.stopPropagation();
+      var open = panel.hidden;
+      panel.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    document.addEventListener("click", function(ev){
+      if(!panel.hidden && !panel.contains(ev.target) && ev.target!==btn){
+        panel.hidden = true; btn.setAttribute("aria-expanded","false");
+      }
+    });
+  })();
+  document.getElementById("bdBody").addEventListener("change", function(ev){
+    var t = ev.target;
+    var f = t.dataset.f; if(!f) return;
+    var tr = t.closest("tr"); var id = tr.dataset.id;
+    var e = state.events.filter(function(x){ return x.id===id; })[0];
+    if(!e) return;
+    if(t.type==="checkbox"){
+      e[f] = t.checked;
+      if(f==="perDeterminar" && t.checked) e.import = null;
+    } else if(f==="import"){
+      e[f] = t.value===""?null:Number(t.value);
+    } else if(f==="comarca"){
+      e.comarca = t.value;
+      if(COMARCA_VEGUERIA[t.value.trim()]) e.vegueria = COMARCA_VEGUERIA[t.value.trim()];
+    } else {
+      e[f] = t.value;
+    }
+    save();
+    renderBD();
+    renderHeader();
+  });
+  document.getElementById("bdBody").addEventListener("click", function(ev){
+    var b = ev.target.closest("[data-bddel]"); if(!b) return;
+    var e = state.events.filter(function(x){ return x.id===b.dataset.bddel; })[0];
+    if(!e) return;
+    var id = b.dataset.bddel;
+    askDelete((e.poblacio||"Aquesta entrada")+" · "+e.data, function(){
+      state.events = state.events.filter(function(x){ return x.id!==id; });
+      save(); renderBD(); renderHeader();
+    });
+  });
+
+  function renderGroups(){
+    var host = document.getElementById("groupList");
+    var cardsHtml = state.grups.map(function(g){
+      var hasPhoto = !!g.foto;
+      var pos = g.fotoPos || {x:50,y:50};
+      var style = hasPhoto
+        ? ' style="background-image:url(\''+g.foto+'\');background-position:'+pos.x+'% '+pos.y+'%;--gc:'+g.color+'"'
+        : ' style="border-left-color:'+g.color+'"';
+      return '<div class="group-card'+(hasPhoto?" has-photo":"")+'"'+style+'>'+
+        '<div class="group-footer">'+
+          '<h4>'+esc(g.nom)+"</h4>"+
+          '<div class="group-row">'+
+            '<button class="btn sm ghost" data-g="'+g.id+'">Edita</button>'+
+            '<button class="del-btn" data-gdel="'+g.id+'" title="Esborra" aria-label="Esborra">✕</button>'+
+          "</div>"+
+        "</div>"+
+      "</div>";
+    }).join("") || '<div class="empty"><p>Encara no tens cap grup. Afegeix-ne un des del botó "+".</p></div>';
+    host.innerHTML = cardsHtml;
+    host.querySelectorAll("[data-g]").forEach(function(b){
+      b.addEventListener("click", function(){ openGroup(b.dataset.g); });
+    });
+    host.querySelectorAll("[data-gdel]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var g = grup(b.dataset.gdel); if(!g) return;
+        var id = b.dataset.gdel;
+        var used = state.events.filter(function(e){ return e.grupId===id; }).length;
+        askDelete(
+          g.nom + (used ? " · "+used+" entrades es quedaran sense grup" : ""),
+          function(){
+            state.events.forEach(function(e){ if(e.grupId===id) e.grupId=""; });
+            state.grups = state.grups.filter(function(x){ return x.id!==id; });
+            save(); refresh(); toast("Grup esborrat");
+          },
+          "Vols eliminar el grup?"
+        );
+      });
+    });
+  }
+  var dlg = document.getElementById("groupDlg");
+  function makeFotoPicker(ids){
+    var fileInput = document.getElementById(ids.file);
+    var box = document.getElementById(ids.box);
+    var wrap = document.getElementById(ids.wrap);
+    var removeBtn = document.getElementById(ids.remove);
+    var pending; // undefined = no canvi, null = treure, string = nova foto
+    var pos = {x:50,y:50};
+    function show(src, p){
+      pos = p || {x:50,y:50};
+      if(src){
+        box.style.backgroundImage = "url('"+src+"')";
+        box.style.backgroundPosition = pos.x+"% "+pos.y+"%";
+        wrap.hidden = false;
+      } else {
+        box.style.backgroundImage = "";
+        wrap.hidden = true;
+      }
+    }
+    (function(){
+      var dragging = false, startX, startY, startPos;
+      function clamp(v){ return Math.max(0, Math.min(100, v)); }
+      box.addEventListener("pointerdown", function(ev){
+        if(!box.style.backgroundImage) return;
+        dragging = true; startX = ev.clientX; startY = ev.clientY; startPos = {x:pos.x, y:pos.y};
+        box.classList.add("dragging"); box.setPointerCapture(ev.pointerId);
+      });
+      box.addEventListener("pointermove", function(ev){
+        if(!dragging) return;
+        var r = box.getBoundingClientRect();
+        var dx = (ev.clientX - startX) / r.width * 100;
+        var dy = (ev.clientY - startY) / r.height * 100;
+        pos = { x: clamp(startPos.x - dx), y: clamp(startPos.y - dy) };
+        box.style.backgroundPosition = pos.x+"% "+pos.y+"%";
+      });
+      function up(){ dragging = false; box.classList.remove("dragging"); }
+      box.addEventListener("pointerup", up);
+      box.addEventListener("pointercancel", up);
+    })();
+    fileInput.addEventListener("change", function(){
+      var file = this.files && this.files[0];
+      if(!file) return;
+      var reader = new FileReader();
+      reader.onload = function(){
+        var img = new Image();
+        img.onload = function(){
+          var maxW = 900;
+          var w = img.width, h = img.height;
+          if(w>maxW){ h = Math.round(h*maxW/w); w = maxW; }
+          var canvas = document.createElement("canvas");
+          canvas.width = w; canvas.height = h;
+          canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+          var dataUrl = canvas.toDataURL("image/jpeg", 0.82);
+          pending = dataUrl;
+          show(dataUrl, {x:50,y:50});
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+    removeBtn.addEventListener("click", function(){
+      pending = null;
+      fileInput.value = "";
+      show(null);
+    });
+    return {
+      reset: function(existingFoto, existingPos){
+        pending = undefined;
+        fileInput.value = "";
+        show(existingFoto || null, existingPos);
+      },
+      getPending: function(){ return pending; },
+      getPos: function(){ return pos; }
+    };
+  }
+  var groupFotoPicker = makeFotoPicker({file:"g_foto", box:"g_fotoPositionBox", wrap:"g_fotoPreviewWrap", remove:"g_fotoRemove"});
+  function openGroup(id){
+    var g = id ? grup(id) : null;
+    document.getElementById("groupDlgTitle").textContent = g ? g.nom : "Grup nou";
+    document.getElementById("g_id").value = g?g.id:"";
+    document.getElementById("g_nom").value = g?g.nom:"";
+    document.getElementById("g_color").value = g?g.color:PALETTE[state.grups.length%PALETTE.length];
+    document.getElementById("g_import").value = (g&&g.importDefecte!=null)?g.importDefecte:"";
+    document.getElementById("g_contacte").value = g?(g.contacte||""):"";
+    document.getElementById("g_telefon").value = g?(g.telefon||""):"";
+    groupFotoPicker.reset(g&&g.foto ? g.foto : null, g&&g.fotoPos ? g.fotoPos : {x:50,y:50});
+    document.getElementById("delGroup").hidden = !g;
+    dlg.showModal();
+  }
+  document.getElementById("saveGroupBtn").addEventListener("click", function(){
+    var g_nom = document.getElementById("g_nom");
+    if(!g_nom.value.trim()){ g_nom.focus(); toast("Falta el nom del grup"); return; }
+    var id = document.getElementById("g_id").value;
+    var imp = document.getElementById("g_import").value;
+    var data = {
+      nom: g_nom.value.trim(),
+      color: document.getElementById("g_color").value,
+      importDefecte: imp===""?null:Number(imp),
+      contacte: document.getElementById("g_contacte").value.trim(),
+      telefon: document.getElementById("g_telefon").value.trim()
+    };
+    var pendingFoto = groupFotoPicker.getPending();
+    if(id){
+      var g=grup(id);
+      Object.keys(data).forEach(function(k){ g[k]=data[k]; });
+      if(pendingFoto!==undefined) g.foto = pendingFoto;
+      if(pendingFoto===null) g.fotoPos = null;
+      else if(g.foto) g.fotoPos = groupFotoPicker.getPos();
+    } else {
+      data.id = uid();
+      if(pendingFoto){ data.foto = pendingFoto; data.fotoPos = groupFotoPicker.getPos(); }
+      state.grups.push(data);
+    }
+    save(); refresh(); toast("Grup desat");
+    dlg.close();
+  });
+  document.getElementById("cancelGroupBtn").addEventListener("click", function(){ dlg.close(); });
+  document.getElementById("delGroup").addEventListener("click", function(){
+    var id = document.getElementById("g_id").value; if(!id) return;
+    var used = state.events.filter(function(e){ return e.grupId===id; }).length;
+    if(!confirm(used ? "Aquest grup té "+used+" entrades. Si l'esborres es quedaran sense grup. Continuo?" : "Esborrar el grup?")) return;
+    state.events.forEach(function(e){ if(e.grupId===id) e.grupId=""; });
+    state.grups = state.grups.filter(function(g){ return g.id!==id; });
+    save(); dlg.close(); refresh(); toast("Grup esborrat");
+  });
+
+  /* ---------- exportar ---------- */
+  function download(name, text, type){
+    var blob = new Blob([text], {type:type});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  document.getElementById("exportCsv").addEventListener("click", function(){
+    var head = ["Data","Tipus","Grup","Població","Comarca","Vegueria","Colla","Funció","Import","Cobrat","Estat","Contacte","Telèfon","Observacions"];
+    var lines = [head.join(";")].concat(sorted().map(function(e){
+      return [e.data, e.tipus, grupNom(e.grupId), e.poblacio, e.comarca, e.vegueria, e.colla, funcioNom(e.funcio),
+              (e.import==null?"":e.import), (e.cobrat?"1":"0"), e.estat, e.contacte, e.telefon, e.obs]
+        .map(function(v){ v=String(v==null?"":v); return /[";\n]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }).join(";");
+    }));
+    download("bolos-"+iso(new Date())+".csv", "\uFEFF"+lines.join("\n"), "text/csv;charset=utf-8");
+    toast("CSV descarregat");
+  });
+  document.getElementById("exportJson").addEventListener("click", function(){
+    download("bolos-copia-"+iso(new Date())+".json", JSON.stringify(state,null,2), "application/json");
+    toast("Còpia descarregada");
+  });
+  document.getElementById("wipe").addEventListener("click", function(){
+    if(!confirm("Això esborra tots els bolos i grups. Segur?")) return;
+    if(!confirm("Últim avís: no es pot desfer. Has baixat una còpia?")) return;
+    state = {grups:[], events:[]}; save(); refresh(); toast("Dades esborrades");
+  });
+
+  /* ---------- refresc ---------- */
+  function refresh(){
+    fillGroupSelect(); fillFilters(); renderHeader();
+    if(view.tab==="calendari") renderCal();
+    if(view.tab==="llistat") renderList();
+    if(view.tab==="resum") renderResum();
+    if(view.tab==="grups") renderGroups();
+    if(view.tab==="bd"){ fillBDFilters(); renderBD(); }
+  }
+
+  /* ---------- capçalera amagable ---------- */
+  (function collapsingHeader(){
+    var headerEl = document.querySelector("header.top");
+    var ticking = false;
+    function update(){
+      var y = window.scrollY || document.documentElement.scrollTop;
+      headerEl.classList.toggle("collapsed", y > 40);
+      ticking = false;
+    }
+    window.addEventListener("scroll", function(){
+      if(!ticking){ requestAnimationFrame(update); ticking = true; }
+    }, {passive:true});
+  })();
+
+  function finishBoot(){
+    var t = today();
+    view.calY = t.getFullYear(); view.calM = t.getMonth(); view.selDay = iso(t);
+    document.getElementById("f_data").value = iso(t);
+    document.getElementById("comarquesList").innerHTML =
+      Object.keys(COMARCA_VEGUERIA).sort().map(function(c){ return '<option value="'+esc(c)+'">'; }).join("");
+    document.getElementById("boot").hidden = true;
+    document.getElementById("app").hidden = false;
+    syncType(); refresh();
+  }
+
+  (async function init(){
+    var status = await loadFromServer();
+    if(status === "unauth"){ showAuthGate(); return; }
+    if(status === "error") return;
+    finishBoot();
+  })();
+})();
+</script>
