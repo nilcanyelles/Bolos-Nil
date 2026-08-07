@@ -644,6 +644,8 @@
       <div class="form-actions">
         <button class="btn ghost" id="exportCsv">Baixa CSV</button>
         <button class="btn ghost" id="exportJson">Baixa còpia de seguretat</button>
+        <button class="btn ghost" id="importJsonBtn">Importa còpia de seguretat</button>
+        <input type="file" id="importJsonFile" accept="application/json" hidden>
         <button class="btn ghost danger" id="wipe">Esborra-ho tot</button>
       </div>
     </section>
@@ -1892,6 +1894,31 @@
   document.getElementById("exportJson").addEventListener("click", function(){
     download("bolos-copia-"+iso(new Date())+".json", JSON.stringify(state,null,2), "application/json");
     toast("Còpia descarregada");
+  });
+  document.getElementById("importJsonBtn").addEventListener("click", function(){
+    document.getElementById("importJsonFile").click();
+  });
+  document.getElementById("importJsonFile").addEventListener("change", function(){
+    var file = this.files && this.files[0];
+    this.value = "";
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(){
+      var d;
+      try{ d = JSON.parse(reader.result); }
+      catch(e){ toast("El fitxer no és un JSON vàlid"); return; }
+      if(!d || !Array.isArray(d.grups) || !Array.isArray(d.events)){
+        toast("El fitxer no té el format esperat");
+        return;
+      }
+      if(!confirm("Això substituirà TOTES les dades actuals per les del fitxer ("+d.events.length+" entrades, "+d.grups.length+" grups). Continuo?")) return;
+      state = d;
+      migrateComarques();
+      save();
+      refresh();
+      toast("Dades importades");
+    };
+    reader.readAsText(file);
   });
   document.getElementById("wipe").addEventListener("click", function(){
     if(!confirm("Això esborra tots els bolos i grups. Segur?")) return;
